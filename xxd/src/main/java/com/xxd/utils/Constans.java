@@ -11,9 +11,8 @@ import java.util.HashMap;
 public class Constans {
 	
 	//总配置文件
-	//public static final String PROSOURCE = "F:/workFile/myEclipse1/workSpace1/xxd/pro/pro.properties";
-	//public static final String PROSOURCE = "D:/work/myEclipse1/workspace1/xxd/pro/pro.properties";
-	public static final String PROSOURCE = "/home/xxd/xxdAdmin/pro/pro.properties";
+	public static final String PROSOURCE = "F:/pro/pro.properties";
+	//public static final String PROSOURCE = "/home/xxd/xxdAdmin/pro/pro.properties";
 	
 	//统一的Ajax返回格式
 	public static HashMap<String, Object> returnCon(final int code, final Object con){

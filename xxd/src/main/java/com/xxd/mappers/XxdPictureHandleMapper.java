@@ -128,7 +128,6 @@ public interface XxdPictureHandleMapper {
     @Select({
     	"SELECT *",
     	"FROM xxd_picture_handle",
-    	"where handle_time >=DATE_SUB(NOW(),INTERVAL 5 DAY)",
     	"ORDER BY id DESC "
     })
     @Results({
