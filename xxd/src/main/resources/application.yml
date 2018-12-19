@@ -1,0 +1,61 @@
+#端口
+server:
+  port: 8890
+  tomcat:
+    uri-encoding: UTF-8
+
+logging:
+  level: debug
+
+#Eureka
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      waitTimeInMsWhenSyncEmpty: 0
+  server:
+    enableSelfPreservation: false
+    
+
+#spring的阿里数据源
+spring:
+  freemarker:
+    suffix: .html
+    charset: UTF-8 #编码格式
+    cache: false #缓存配置
+    content-type: text/html
+  datasource:
+    url: jdbc:mysql://211.149.163.42:3306/xxd?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 724ta38g
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat,wall
+    maxActive: 300
+    initialSize: 5
+    maxWait: 60000
+    minIdle: 10
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+    removeAbandoned: true
+    removeAbandonedTimeout: 180000
+    logAbandoned: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    useGlobalDataSourceStat: true
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+    multipart:
+      maxFileSize: 2Mb
+      maxRequestSize: 100Mb

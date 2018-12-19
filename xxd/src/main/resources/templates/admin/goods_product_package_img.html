@@ -1,0 +1,299 @@
+<#assign basePath="" />
+<#assign imgPath=imgPath />
+<#assign id=id />
+<#assign type=type />
+<#assign dir=dir />
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="${basePath}/lib/html5shiv.js"></script>
+<script type="text/javascript" src="${basePath}/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/css/style.css" />
+<style type="text/css">
+.icon {
+	width: 2em;
+	height: 2em;
+	vertical-align: -0.15em;
+	fill: currentColor;
+	overflow: hidden;
+}
+
+.addImg {
+	fill: #cdcdcd;
+	width: 190px;
+	height: 190px;
+}
+.upload-input {
+	display: none;
+}
+.preview {
+	position: absolute;
+    width: 170px;
+    height: 170px;
+    left: 9px;
+    top: 10px;
+}
+.click {
+	position: absolute;
+	width: 190px;
+	height: 190px;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	cursor: pointer;
+}
+.delete {
+	position: absolute;
+    right: 26px;
+    top: -1rem;
+    cursor: pointer;
+    display: none;
+    z-index: 30;
+}
+.up-del {
+	position: absolute;
+    right: 24px !important;
+    top: -1rem;
+    cursor: pointer;
+    display: none;
+    z-index: 30;
+}
+.preview img {
+	width: 100%;
+	height: 100%;
+	    margin-left: 17px;
+		    border: 1px #ccc solid;
+    padding: 5px;
+}
+
+.up-sfz{float: left;
+    
+    margin-left: -30px;}
+	.up-sfz-d{float: left;
+    
+    margin-left: -44px;}
+	.up-sfz-tishi{    margin-top: 50px;
+    overflow: hidden;}
+	
+	.up-sfz-left{margin-left:2px;}
+	.up-sfz-de-left{position: absolute;
+    /* margin-left: 24px; 
+    display: block;*/
+    left: 179px;}
+	.m-16-left{    margin-left: -16px;}
+	
+.fade {opacity: 0;
+	-webkit-transition: opacity .15s linear;
+	-o-transition: opacity .15s linear;
+	transition: opacity .15s linear}
+.fade.in {opacity: 1}
+.modal-open {overflow: hidden}
+.modal{ position:fixed; left:0; top:0; right:0; bottom:0; z-index:1040; display:none; overflow:hidden;-webkit-overflow-scrolling:touch; outline:0}
+.modal.fade .modal-dialog{
+	-webkit-transition: -webkit-transform .3s ease-out;
+	-o-transition: -o-transform .3s ease-out;
+	transition: transform .3s ease-out;
+	-webkit-transform: translate(0,-50%);
+	-ms-transform: translate(0,-50%);
+	-o-transform: translate(0,-50%);
+	transform: translate(0,-50%)}
+.modal.in .modal-dialog {
+	-webkit-transform: translate(0, 0);
+	-ms-transform: translate(0, 0);
+	-o-transform: translate(0, 0);
+	transform: translate(0, 0)}
+.modal-open .modal {overflow-x: hidden;overflow-y: auto}
+	.modal-backdrop {position: fixed;top: 0;right: 0;bottom: 0;left: 0;background-color: #000}
+	.modal-backdrop.fade {filter: alpha(opacity=0);opacity: 0}
+	.modal-backdrop.in {filter: alpha(opacity=50);opacity: .5}
+	.modal-dialog {position: relative;width: auto;margin: 10px}
+	.modal-content{position: relative;background-color: #fff;border: 1px solid #999;border: 1px solid rgba(0,0,0,.2);outline: 0;
+		-webkit-background-clip: padding-box;
+		background-clip: padding-box; 
+		-webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+		box-shadow: 0 3px 9px rgba(0,0,0,.5)}
+	
+		.modal-header {min-height: 16.42857143px;padding: 15px;border-bottom: 1px solid #eee; position:relative}
+		.modal-header .close{position:absolute; right:10px; top:10px}
+		.modal-header h3,.modal-header .modal-title{margin:0; padding:10px 0; font-size:16px}
+	
+		.modal-body {position:relative;padding: 15px;overflow-y:visible;word-break:break-all}
+			.modal-form {margin-bottom: 0}
+	
+		.modal-footer {padding:15px;margin-bottom: 0;text-align: right;background-color: #f5f5f5;border-top: 1px solid #eee;*zoom: 1}
+		.modal-footer:before,.modal-footer:after {display: table;content: ""}
+		.modal-footer:after {clear: both}
+		.modal-footer .btn + .btn {margin-left: 5px;margin-bottom: 0}
+		.modal-footer .btn-group .btn + .btn {margin-left: -1px}
+		.modal-footer .btn-block + .btn-block {margin-left: 0}
+		
+	.modal-scrollbar-measure {position: absolute;top: -9999px;width: 50px;height: 50px;overflow: scroll}
+	
+	.radius .modal-content{ border-radius:6px}
+	.radius .modal-footer{ border-bottom-left-radius:6px; border-bottom-right-radius:6px}
+	@media (min-width: 768px) {
+		.modal-dialog {width: 600px;margin: 30px auto}
+		.modal-content {-webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);box-shadow: 0 5px 15px rgba(0, 0, 0, .5)}
+		.modal-sm {width: 300px}
+	}
+	@media (min-width: 992px) {
+		.modal-lg {width: 900px}
+	}
+ 
+.modal-alert{position:fixed; right:auto; bottom:auto; width:300px; left:50%;margin-left:-150px; top:50%;margin-top:-30px; z-index:9999;background-color: #fff;border: 1px solid #999;border: 1px solid rgba(0,0,0,.2);outline: 0;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box; 
+	-webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+	box-shadow: 0 3px 9px rgba(0,0,0,.5)}
+.modal-alert-info{padding:30px; text-align:center; font-size:14px; background-color:#fff}
+</style>
+<!--[if IE 6]>
+<script type="text/javascript" src="${basePath}/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+
+<title>图片展示</title>
+<link href="${basePath}/lib/lightbox2/2.8.1/css/lightbox.css" rel="stylesheet" type="text/css" >
+</head>
+<body>
+<div class="page-container">
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> 
+		<span class="l">
+			<a href="javascript:;" onclick="datadel(this)" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
+			<button class="btn radius btn-primary size-M" onClick="modaldemo()">添加图片</button>
+		</span>
+		<span class="r">共有数据：<strong>${imgPath?size}</strong> 条</span>
+	</div>
+	
+	<div class="portfolio-content">
+		<ul class="cl portfolio-area">
+			<#list imgPath as ip>
+				<li class="item">
+					<div class="portfoliobox">
+						<input class="checkbox" name="" type="checkbox" value="${ip[1]}">
+						<div class="picbox"><a href="/admin/show?filePath=${ip[0]}" data-lightbox="gallery" data-title="图片"><img src="/admin/show?filePath=${ip[0]}"></a></div>
+						<div class="textbox">图片</div>
+					</div>
+				</li>
+			</#list>
+            <div id="modal-demo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            	<form method="post" enctype="multipart/form-data" >
+				<div class="modal-dialog">
+					<div class="modal-content radius">
+						<div class="modal-body">
+							<div class="col-sm-10">
+				                <div class="up-sfz col-xs-6 col-sm-6 col-md-3 up-sfz-left2"> 
+				                   <svg class="icon addImg" aria-hidden="true">
+				                     <use xlink:href="#icon-tianjiatupian"></use>
+				                     </svg>
+				                     	<input name="file" type="file" class="upload_input" onChange="preview(this)" style="display: none;"/>
+				                     <div class="preview"></div>
+				                      <div class="click" onClick="loadImg(this)"></div>
+				                      <div class="delete up-del" onClick="deleteImg(this)"> 
+				                            <svg class="icon" aria-hidden="true"><use xlink:href="#icon-shanchu4"></use></svg> 
+				                       </div>
+				                </div>
+				            </div>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-primary" onClick="add_img()">添加</button>
+							<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+						</div>
+					</div>
+				</div>
+				</form>
+			</div>
+		</ul>
+	</div>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${basePath}/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="${basePath}/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${basePath}/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="${basePath}/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${basePath}/static/xxd/js/svg.js"></script>
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="${basePath}/lib/lightbox2/2.8.1/js/lightbox.min.js"></script> 
+<script type="text/javascript">
+$(function(){
+	$(".portfolio-area li").Huihover();
+});
+function add_img(){
+	var formData = new FormData($("form")[0]);
+	formData.append("fileName", ${imgPath?size});
+	formData.append("id", ${id});
+	formData.append("type", ${type});
+	$.ajax({
+        type: "POST",
+        contentType:false, //必须false才会避开jQuery对 formdata 的默认处理 , XMLHttpRequest会对 formdata 进行正确的处理
+        processData: false, //必须false才会自动加上正确的Content-Type 
+        url: "/XxdGoodsProductPackage/addImg",
+        data: formData,
+        dataType: 'json',
+    });
+}
+function modaldemo(){
+	$("#modal-demo").modal("show");
+}
+/*批量删除*/
+function datadel(obj){
+	//获取所有被选中id
+	var ids = "";
+	$.each($('input:checkbox:checked'),function(){
+		ids += $(this).val() + ",";
+    });
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			url: '/XxdGoodsProductPackage/deleteImg',
+			data: {ids : ids, id : ${id}, type : ${type}},
+			dataType: 'json',
+			success: function(data){
+				$(obj).parents("tr").remove();
+				layer.msg('已删除!',{icon:1,time:1000});
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+//选择图片
+function loadImg(obj){
+  $(obj).parent().find(".upload_input").click();
+}
+//删除
+function deleteImg(obj){
+  $(obj).parent().find('input').val('');
+  $(obj).parent().find('.preview').html('');
+  $(obj).hide();
+}
+            
+function preview(file) {
+	var prevDiv = $(file).parent().find('.preview');
+	if (file.files && file.files[0]) {
+	  var reader = new FileReader();
+	  reader.onload = function(evt) {
+	    prevDiv.html('<img src="' + evt.target.result + '" />');
+	  }
+	  reader.readAsDataURL(file.files[0]);
+	} else {//IE
+	  prevDiv.html('<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + file.value + '\'"></div>');
+	}
+	$(file).parent().find('.delete').show();
+}
+</script>
+</body>
+</html>

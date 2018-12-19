@@ -1,0 +1,346 @@
+<#assign basePath="" />
+<#assign goodsGreight = goodsGreight >
+<#assign goods_id = id >
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="${basePath}/lib/html5shiv.js"></script>
+<script type="text/javascript" src="${basePath}/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/css/style.css" />
+<style type="text/css" >
+.fade {opacity: 0;
+	-webkit-transition: opacity .15s linear;
+	-o-transition: opacity .15s linear;
+	transition: opacity .15s linear}
+.fade.in {opacity: 1}
+.modal-open {overflow: hidden}
+.modal{ position:fixed; left:0; top:0; right:0; bottom:0; z-index:1040; display:none; overflow:hidden;-webkit-overflow-scrolling:touch; outline:0}
+.modal.fade .modal-dialog{
+	-webkit-transition: -webkit-transform .3s ease-out;
+	-o-transition: -o-transform .3s ease-out;
+	transition: transform .3s ease-out;
+	-webkit-transform: translate(0,-50%);
+	-ms-transform: translate(0,-50%);
+	-o-transform: translate(0,-50%);
+	transform: translate(0,-50%)}
+.modal.in .modal-dialog {
+	-webkit-transform: translate(0, 0);
+	-ms-transform: translate(0, 0);
+	-o-transform: translate(0, 0);
+	transform: translate(0, 0)}
+.modal-open .modal {overflow-x: hidden;overflow-y: auto}
+	.modal-backdrop {position: fixed;top: 0;right: 0;bottom: 0;left: 0;background-color: #000}
+	.modal-backdrop.fade {filter: alpha(opacity=0);opacity: 0}
+	.modal-backdrop.in {filter: alpha(opacity=50);opacity: .5}
+	.modal-dialog {position: relative;width: auto;margin: 10px}
+	.modal-content{position: relative;background-color: #fff;border: 1px solid #999;border: 1px solid rgba(0,0,0,.2);outline: 0;
+		-webkit-background-clip: padding-box;
+		background-clip: padding-box; 
+		-webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+		box-shadow: 0 3px 9px rgba(0,0,0,.5)}
+	
+		.modal-header {min-height: 16.42857143px;padding: 15px;border-bottom: 1px solid #eee; position:relative}
+		.modal-header .close{position:absolute; right:10px; top:10px}
+		.modal-header h3,.modal-header .modal-title{margin:0; padding:10px 0; font-size:16px}
+	
+		.modal-body {position:relative;padding: 15px;overflow-y:visible;word-break:break-all}
+			.modal-form {margin-bottom: 0}
+	
+		.modal-footer {padding:15px;margin-bottom: 0;text-align: right;background-color: #f5f5f5;border-top: 1px solid #eee;*zoom: 1}
+		.modal-footer:before,.modal-footer:after {display: table;content: ""}
+		.modal-footer:after {clear: both}
+		.modal-footer .btn + .btn {margin-left: 5px;margin-bottom: 0}
+		.modal-footer .btn-group .btn + .btn {margin-left: -1px}
+		.modal-footer .btn-block + .btn-block {margin-left: 0}
+		
+	.modal-scrollbar-measure {position: absolute;top: -9999px;width: 50px;height: 50px;overflow: scroll}
+	
+	.radius .modal-content{ border-radius:6px}
+	.radius .modal-footer{ border-bottom-left-radius:6px; border-bottom-right-radius:6px}
+	@media (min-width: 768px) {
+		.modal-dialog {width: 600px;margin: 30px auto}
+		.modal-content {-webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);box-shadow: 0 5px 15px rgba(0, 0, 0, .5)}
+		.modal-sm {width: 300px}
+	}
+	@media (min-width: 992px) {
+		.modal-lg {width: 900px}
+	}
+ 
+.modal-alert{position:fixed; right:auto; bottom:auto; width:300px; left:50%;margin-left:-150px; top:50%;margin-top:-30px; z-index:9999;background-color: #fff;border: 1px solid #999;border: 1px solid rgba(0,0,0,.2);outline: 0;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box; 
+	-webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+	box-shadow: 0 3px 9px rgba(0,0,0,.5)}
+.modal-alert-info{padding:30px; text-align:center; font-size:14px; background-color:#fff}
+</style>
+<!--[if IE 6]>
+<script type="text/javascript" src="${basePath}/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>商品运费管理</title>
+</head>
+<body>
+<div class="page-container">
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+		<span class="l">
+			<a class="btn btn-success radius" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
+			<a href="javascript:;" onclick="datadel(this)" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
+			<a href="javascript:;" onclick="goods_greight_add('添加商品运费','goods_greight_add.html?goods_id=${goods_id}','','')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加商品运费</a>
+			<button class="btn radius btn-primary size-M" onClick="modaladd()">添加运费</button>
+		</span>
+		<span class="r">共有数据：<strong>${goodsGreight?size}</strong> 条</span>
+	</div>
+	<div class="mt-20">
+	<table class="table table-border table-bordered table-hover table-bg table-sort">
+		<thead>
+			<tr class="text-c">
+				<th width="25"><input type="checkbox" name="" value=""></th>
+				<th width="40">ID</th>
+				<th width="70">覆盖区域</th>
+				<th width="40">覆盖区域类型</th>
+				<th width="40">计价类型</th>
+				<th width="40">计价基本费用</th>
+				<th width="40">计价基本范围</th>
+				<th width="40">计价超出范围计价价格</th>
+				<th width="40">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<#list goodsGreight as g>
+			<tr class="text-c">
+				<td><input type="checkbox" value="${g.id}" name=""></td>
+				<td>${g.id}</td>
+				<td>${g.area}</td>
+				<td value="${g.areaType}">${(g.areaType == 1)?string('按区划分', '按省份划分')}</td>
+				<td value="${g.valuationType}">${(g.valuationType == 1)?string('/kg', '/件')}</td>
+				<td>${g.basicValuationPrice?string('0.00')}</td>
+				<td>${g.basicValuationArea}</td>
+				<td>${g.overBasicValuationPrice?string('0.00')}</td>
+				<td class="td-manage">
+					<a title="编辑" href="javascript:;" onClick="modaledit()" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+				</td>
+			</tr>
+			</#list>
+		</tbody>
+	</table>
+	</div>
+</div>
+<div id="modal-add" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <form method="post" action="" id="form-add">
+	<div class="modal-dialog" style="width:500px">
+		<div class="modal-content radius">
+			<div class="modal-header">
+				<h3 class="modal-title">添加运费信息</h3>
+				<a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void();">×</a>
+			</div>
+			<div class="modal-body">
+				<input type="hidden" name="id" value="" />
+				<input type="hidden" name="goods_id" value="${goods_id}" />
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>覆盖区域：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="number" class="input-text" value="" placeholder="" id="area" name="area">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>覆盖区域类型：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<span class="select-box">
+						<select name="areaType" class="select">
+							<option value="1" selected>按大区</option>
+							<option value="2">按省份</option>
+						</select>
+						</span>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>计价类型：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<span class="select-box">
+						<select name="valuationType" class="select">
+							<option value="1" selected>/斤</option>
+							<option value="2">/kg</option>
+						</select>
+						</span>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>计价基本费用：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="number" class="input-text" value="" placeholder="" id="basicValuationPrice" name="basicValuationPrice">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>计价基本范围：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="number" class="input-text" value="" placeholder="" id="basicValuationArea" name="basicValuationArea">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>计价超出范围计价价格：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="number" class="input-text" value="" placeholder="" id="overBasicValuationPrice" name="overBasicValuationPrice">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" onClick="add_greight()">添加</button>
+				<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+			</div>
+		</div>
+	</div>
+	</form>
+</div>
+<div id="modal-edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <form method="post" enctype="multipart/form-data" id="form-edit">
+	<div class="modal-dialog">
+		<div class="modal-content radius">
+			<div class="modal-header">
+				<h3 class="modal-title">修改运费信息</h3>
+				<a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void();">×</a>
+			</div>
+			<div class="modal-body">
+				<input type="hidden" name="id" value="" />
+				<input type="hidden" name="goods_id" value="${goods_id}" />
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>覆盖区域类型：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<span class="select-box">
+						<select name="areaType" class="select">
+							<option value="1" selected>按大区</option>
+							<option value="2">按省份</option>
+						</select>
+						</span>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>覆盖区域：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="number" class="input-text" value="" placeholder="" id="area" name="area">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>计价类型：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<span class="select-box">
+						<select name="valuationType" class="select">
+							<option value="1" selected>/斤</option>
+							<option value="2">/kg</option>
+						</select>
+						</span>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>计价基本费用：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="number" class="input-text" value="" placeholder="" id="basicValuationPrice" name="basicValuationPrice">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>计价基本范围：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="number" class="input-text" value="" placeholder="" id="basicValuationArea" name="basicValuationArea">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>计价超出范围计价价格：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="number" class="input-text" value="" placeholder="" id="overBasicValuationPrice" name="overBasicValuationPrice">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" onClick="edit_greight()">修改</button>
+				<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+			</div>
+		</div>
+	</div>
+	</form>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${basePath}/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${basePath}/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${basePath}/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="${basePath}/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="${basePath}/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="${basePath}/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="${basePath}/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.table-sort').dataTable({
+		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
+		"bStateSave": true,//状态保存
+		"aoColumnDefs": [
+		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+		  {"orderable":false,"aTargets":[0,8]}// 制定列不参与排序
+		]
+	});
+});
+function add_greight(){
+	var add_form = new FormData($("#form-add")[0]);
+	$.ajax({
+		type: 'POST',
+		url: '/XxdGoodsGreight/insert',
+		data: {ids : ids},
+		dataType: 'json',
+		success: function(data){
+			$(obj).parents("tr").remove();
+			layer.msg('已删除!',{icon:1,time:1000});
+		},
+		error:function(data) {
+			console.log(data.msg);
+		},
+	});	
+}
+
+function modaladd(){
+	$("#modal-add").modal("show");
+}
+/*批量删除*/
+function datadel(obj){
+	//获取所有被选中id
+	var ids = "";
+	$.each($('input:checkbox:checked'),function(){
+		ids += $(this).val() + ",";
+    });
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			url: '/XxdGoodsGreight/datadel',
+			data: {ids : ids},
+			dataType: 'json',
+			success: function(data){
+				$(obj).parents("tr").remove();
+				layer.msg('已删除!',{icon:1,time:1000});
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+/*添加*/
+function goods_greight_add(title,url,w,h){
+	layer_show(title,url,w,h);
+}
+
+/*编辑*/
+function goods_greight_edit(title,url,id,w,h){
+	layer_show(title,url+"?id="+id,w,h);
+}
+</script> 
+</body>
+</html>

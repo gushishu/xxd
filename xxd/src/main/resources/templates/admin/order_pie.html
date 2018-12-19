@@ -1,0 +1,234 @@
+<#assign basePath="" />
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>饼状图</title>
+</head>
+<body>
+<!--饼状图js-->
+<script src="${basePath}/lib/code/highcharts.js"></script>
+<script src="${basePath}/lib/code/modules/series-label.js"></script>
+<script src="${basePath}/lib/code/modules/exporting.js"></script>
+<script type="text/javascript" src="${basePath}/lib/echarts/echarts.js"></script>
+<script type="text/javascript" src="${basePath}/lib/jquery/1.9.1/jquery.min.js"></script>
+<style type="text/css">
+	#line,#count,#message2,#message1{
+		margin : 80px;
+	}
+</style>
+<!--end-->
+<div id="message1" style="color:red"></div>
+<div id="line" style="width: 90%; height: 400px;"></div>
+<div id="count" style="width: 90%; height: 400px;"></div>
+<div id="message2"></div>
+<script type="text/javascript">
+/* 饼图 */
+var oneLever = 0;
+var twoLever = 0;
+var member = 0;
+var allMember = 0;
+var datas = [];
+/* 折线图 */
+var eUserIncrease = [];
+var eOneLeverUserIncrease = [];
+var eTwoLeverUserIncrease = [];
+var eMemberUserIncrease = [];
+var myChart = echarts.init(document.getElementById('line'));
+var myChartUser = echarts.init(document.getElementById('count'));
+var	option = {
+	    title : {
+	        text: '用户数据',
+	        subtext: '',
+	        x:'center'
+	    },
+	    tooltip : {
+	        trigger: 'item',
+	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+	    },
+	    legend: {
+	        orient: 'vertical',
+	        left: 'left', 
+	        data: (function(){
+            	var arrNum = [];
+            	$.ajax({
+            		type:'POST',
+        			url:'/XxdUser/selectAllUser',
+        			dataType: 'json',
+        			async:false,
+        			success:function(result){
+        				var con = result.con;
+        				oneLever = con.oneLever;
+        				twoLever = con.twoLever;
+        				member = con.menber;
+        				allMember = oneLever + twoLever + member
+        				arrNum.push({"name":'一级销总:'+oneLever},{"name":'二级销总:'+twoLever},{"name":'会员:'+member});
+        				
+        			},
+        			});
+            	 return arrNum;
+            })(),
+	        	
+	        	/* ['一级销总','二级销总','会员'] */
+	    },
+	    series : [
+	        {
+	            name: '用户占比',
+	            type: 'pie',
+	            radius : '55%',
+	            center: ['50%', '60%'],
+	            data:(function(){
+	            	var arrNum = [];
+	            	$.ajax({
+	            		type:'POST',
+	        			url:'/XxdUser/selectAllUser',
+	        			dataType: 'json',
+	        			async:false,
+	        			success:function(result){
+	        				var con = result.con;
+	        				oneLever = con.oneLever;
+	        				twoLever = con.twoLever;
+	        				member = con.menber;
+	        				allMember = oneLever + twoLever + member
+	        				arrNum.push({"value":oneLever,"name":'一级销总:'+oneLever},{"value":twoLever,"name":'二级销总:'+twoLever},{"value":member,"name":'会员:'+member});
+	        				str = '';
+	        				str+='<div>用户总数：'+allMember+'</div>';
+	        				$("#message1").append(str);
+	        			},
+	        			});
+	            	 return arrNum;
+	            })(),
+	            itemStyle: {
+	                emphasis: {
+	                    shadowBlur: 10,
+	                    shadowOffsetX: 0,
+	                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+	                }
+	            }
+	        }
+	    ]
+	};
+	myChart.setOption(option,true);
+	 var optionline = {
+	 title: {
+	        text: '用户增加'
+	    },
+	    tooltip: {
+	        trigger: 'axis'
+	    },
+	    legend: {
+	        data:['总用户','一级销总','二级销总','会员']
+	    },
+	    grid: {
+	        left: '3%',
+	        right: '4%',
+	        bottom: '3%',
+	        containLabel: true
+	    },
+	    toolbox: {
+	        feature: {
+	            saveAsImage: {}
+	        }
+	    },
+	    xAxis: {
+	    	name: '小时',
+	        type: 'category',
+	        boundaryGap: false,
+	        data: ['0:00','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00']
+	    },
+	    yAxis: {
+	    	name: '数量',
+	        type: 'value'
+	    },
+	    series: [
+	        {
+	            name:'总用户',
+	            type:'line',
+	            stack: '总量',
+	            data:eUserIncrease
+	        },
+	        {
+	            name:'一级销总',
+	            type:'line',
+	            stack: '总量',
+	            data:eOneLeverUserIncrease
+	        },
+	        {
+	            name:'二级销总',
+	            type:'line',
+	            stack: '总量',
+	            data:eTwoLeverUserIncrease
+	        },
+	        {
+	            name:'会员',
+	            type:'line',
+	            stack: '总量',
+	            data:eMemberUserIncrease
+	        }
+	    ]	
+};
+count();
+function count(){
+$.ajax({
+	type:'POST',
+	url:'/XxdUser/selectUserIncrease',
+	dateType:'json',
+	success:function(result){
+		var con = result.con;
+		var allUserIncrease = con.allUserIncrease;
+		var oneLeverUserIncrease = con.oneLeverUserIncrease;
+		var twoLeverUserIncrease = con.twoLeverUserIncrease;
+		var memberUserIncrease = con.memberUserIncrease;
+		var allLeverIncrease = 0;
+		var allOneLeverUserIncrease = 0;
+		var allTwoLeverUserIncrease = 0;
+		var allMemberUserIncrease  = 0;
+		for(var i = 0; i < allUserIncrease.length;i++){
+			eUserIncrease.push(allUserIncrease[i]);
+			allLeverIncrease = allLeverIncrease + allUserIncrease[i];
+		}
+		for(var i = 0; i < oneLeverUserIncrease.length;i++){
+			eOneLeverUserIncrease.push(oneLeverUserIncrease[i]);
+			allOneLeverUserIncrease = allOneLeverUserIncrease + oneLeverUserIncrease[i];
+		}
+		for(var i = 0; i < twoLeverUserIncrease.length;i++){
+			eTwoLeverUserIncrease.push(twoLeverUserIncrease[i]);
+			allTwoLeverUserIncrease = allTwoLeverUserIncrease + twoLeverUserIncrease[i]; 
+		}
+		for(var i = 0; i < memberUserIncrease.length;i++){
+			eMemberUserIncrease.push(memberUserIncrease[i]);
+			allMemberUserIncrease = allMemberUserIncrease + memberUserIncrease[i];
+		}
+		myChartUser.setOption(optionline,true);
+		var str = '';
+		str+='<div>会员：'+allMemberUserIncrease+'</div>';
+		str+='<div>总用户：'+allLeverIncrease+'</div>';
+		str+='<div>一级销总：'+allOneLeverUserIncrease+'</div>';
+		str+='<div>二级销总：'+allTwoLeverUserIncrease+'</div>';
+		$("#message2").append(str);
+	},
+	error:function(data) {
+		alert("获取失败");
+	},
+});
+}
+</script>
+</body>
+</html>

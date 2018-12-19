@@ -1,0 +1,153 @@
+<#assign basePath="" />
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="${basePath}/lib/html5shiv.js"></script>
+<script type="text/javascript" src="${basePath}/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/xxd/css/jquery-confirm.css" />
+<style type="text/css">
+#usernameList{
+	display : none;
+	left: -1px;
+    position: absolute;
+    width: 100%;
+    border: 1px solid #ccc;
+    z-index: 100;
+    background-color: #f9f3f3;
+	max-height: 100px;
+    overflow: auto;
+}
+#usernameList>div{
+	cursor : pointer;
+}
+#usernameList>div:hover{
+	background:#ccc;
+}
+</style>
+<!--[if IE 6]>
+<script type="text/javascript" src="${basePath}/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>划拨积分</title>
+</head>
+<body>
+<article class="page-container form form-horizontal">
+	<div class="row cl">
+		<label class="form-label col-xs-3 col-sm-2">划拨用户：</label>
+		<div class="formControls col-xs-4 col-sm-3" style="padding:0px;">
+			<input type="text" class="input-text" value="" name="inputUsername" />
+			<input type="hidden" class="input-text" value="" name="uid" />
+			<div id="usernameList">
+    </div>
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-3 col-sm-2">划拨积分：</label>
+		<div class="formControls col-xs-4 col-sm-3" style="padding:0px;">
+			<input type="number" class="input-text" value="" id="outline" name="integration" />
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-3 col-sm-2"></label>
+		<div class="formControls col-xs-4 col-sm-3">
+			<input class="btn btn-primary radius" onclick="transInte()" type="button" value="&nbsp;&nbsp;确认&nbsp;&nbsp;">
+		</div>
+	</div>
+</article>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${basePath}/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${basePath}/lib/jquery/jquery-confirm.js"></script> 
+<script type="text/javascript" src="${basePath}/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${basePath}/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="${basePath}/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="${basePath}/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="${basePath}/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="${basePath}/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="${basePath}/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+$("input[name=inputUsername]").bind("keyup", function(){
+	var username = $(this).val();
+	if(username == ""){
+		return ;
+	}
+	$("#usernameList").show();
+	$.ajax({
+		type: 'POST',
+		url: '/XxdUser/selectLikeUsername',
+		data: {username : username},
+		dataType: 'json',
+		success: function(data){
+			$("#usernameList").html("");
+			var cons = data.con;
+			for(var i = 0;i < cons.length;i ++){
+				$("#usernameList").append("<div onclick='selectUser(this)' id='"+cons[i].uid+"'>"+cons[i].username+"</div>");
+			}
+			if(cons.length == 0){
+				$("#usernameList").hide();
+			}
+		},
+		error:function(data) {
+			console.log(data.msg);
+		},
+	});
+});
+function selectUser(obj){
+	$("input[name=inputUsername]").val($(obj).html());
+	$("input[name=uid]").val($(obj).attr("id"));
+	$("#usernameList").hide();
+}
+function transInte(){
+	var uid = $("input[name=uid]").val();
+	var inputUsername = $("input[name=inputUsername]").val();
+	var inte = $("input[name=integration]").val();
+	if(uid == null || uid == 0){
+		layer.msg('请先输入划拨用户!',{icon:5,time:1000});
+		return ;
+	}
+	if(inte == null || inte == 0){
+		layer.msg('请输入划拨积分!',{icon:5,time:1000});
+		return ;
+	}
+	var r=confirm("您是否要给用户名为【"+inputUsername+"】的用户划拨积分【"+inte+"】？");
+	if(r==true){
+		$.ajax({
+	   		type: 'POST',
+	   		url: '/XxdIntegrationTransfer/insert',
+	   		data: {integration : inte, toId : uid},
+	   		dataType: 'json',
+	   		success: function(data){
+	   			if(data.code == 1){
+	   				layer.msg('划拨成功!',{icon: 6,time:1000});
+	   				setTimeout(function (){window.location.reload();},1000);
+	   			}else{
+	   				layer.msg('划拨失败!',{icon: 6,time:1000});
+	   			}
+	   		},
+	   		error:function(data) {
+	   			console.log(data.msg);
+	   		},
+	   	});
+	}
+}
+</script>
+</body>
+</html>

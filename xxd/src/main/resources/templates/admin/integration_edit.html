@@ -1,0 +1,160 @@
+<#assign basePath="" />
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="${basePath}/lib/html5shiv.js"></script>
+<script type="text/javascript" src="${basePath}/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="${basePath}/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>修改用户积分信息</title>
+<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+</head>
+<body>
+<article class="page-container">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3" style="text-align:right;"><span class="c-red">*</span>请输入您需要修改积分信息的用户名称：</label>
+			<div class="formControls col-xs-8 col-sm-9" style="width:200px;">
+				<input type="text" class="input-text" autocomplete="off" placeholder="" name="username" id="username">
+			</div>
+			<button type="button" class="btn btn-success radius" id="searchUser" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户积分信息</button>
+		</div>
+	<form action="/XxdIntegration/updateByPrimaryKeySelective" method="post" class="form form-horizontal" id="form-member-add">
+		<input type="hidden" name="uid" value="" />
+		<input type="hidden" name="id" value="" />
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>当前剩余积分：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="number" class="input-text" autocomplete="off" placeholder="" name="integration" id="integration">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>可用积分：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="number" class="input-text" autocomplete="off" placeholder="" name="abled" id="abled">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>不可用积分：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="number" class="input-text" autocomplete="off" placeholder="" name="disabled" id="disabled">
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${basePath}/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${basePath}/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${basePath}/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="${basePath}/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="${basePath}/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="${basePath}/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="${basePath}/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="${basePath}/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	
+	$("#form-member-add").validate({
+		rules:{
+			integration:{
+				required:true,
+			},
+			abled:{
+				required:true,
+			},
+			disabled:{
+				required:true,
+			},
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+			$(form).ajaxSubmit();
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.$('.btn-refresh').click();
+			parent.layer.close(index);
+		}
+	});
+	$("input[name=integration]").parents(".row").hide();
+	$("input[name=abled]").parents(".row").hide();
+	$("input[name=disabled]").parents(".row").hide();
+});
+//获取长度为len的随机字符串
+function _getRandomString(len) {
+	len = len || 32;
+	var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; // 默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
+	var maxPos = $chars.length;
+	var pwd = '';
+	for (i = 0; i < len; i++) {
+	    pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+	}
+	return pwd;
+}
+$("#searchUser").bind("click", function(){
+	$.ajax({
+		type: 'POST',
+		url: '/XxdIntegration/selectIntegrationByUsername',
+		data : {username : $("#username").val()},
+		dataType: 'json',
+		success: function(data){
+			var con = data.con;
+			//判断是否有内容
+			if(data.code == -1){
+				$("input[name=integration]").parents(".row").show();
+				$("input[name=abled]").parents(".row").show();
+				$("input[name=disabled]").parents(".row").show();
+				$("input[name=uid]").val(con.uid);
+				$("input[name=id]").val(con.id);
+				$("input[name=integration]").val(con.integration);
+				$("input[name=abled]").val(con.abled);
+				$("input[name=disabled]").val(con.disabled);
+			}else{
+				$("input[name=integration]").parents(".row").hide();
+				$("input[name=abled]").parents(".row").hide();
+				$("input[name=disabled]").parents(".row").hide();
+				$("input[name=uid]").val("");
+				$("input[name=id]").val("");
+				$("input[name=integration]").val("");
+				$("input[name=abled]").val("");
+				$("input[name=disabled]").val("");
+			}
+		}
+	});
+});
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

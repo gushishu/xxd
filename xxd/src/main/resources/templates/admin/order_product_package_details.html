@@ -1,0 +1,127 @@
+<#assign basePath="" />
+<#assign orderProductPackageDetails = orderProductPackageDetails />
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="${basePath}/lib/html5shiv.js"></script>
+<script type="text/javascript" src="${basePath}/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="${basePath}/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>订单商品</title>
+</head>
+<body>
+<div class="page-container">
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+		<span class="r">共有数据：<strong>${orderProductPackageDetails?size}</strong> 条</span>
+	</div>
+	<div class="mt-20">
+	<table class="table table-border table-bordered table-hover table-bg table-sort">
+		<thead>
+			<tr class="text-c">
+				<th width="40">ID</th>
+				<th width="90">商品图片</th>
+				<th width="70">商品名称</th>
+				<th width="25">商品单价</th>
+				<th width="40">商品数量</th>
+				<th width="40">所属团导id</th>
+				<th width="40">订单状态</th>
+				<th width="40">快递单号</th>
+				<th width="40">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<#list orderProductPackageDetails as b>
+			<tr class="text-c">
+				<td>${b.id}</td>
+				<td><img height="50" src="/admin/show?filePath=${b.show_img_dir}"></td>
+				<td>${b.name}</td>
+				<td>${b.prices?string('0.00')}</td>
+				<td>${b.num}</td>
+				<td>
+					<#if b.ownership_leader_id == 0>
+						平台发货
+					<#else>
+						${b.ownership_leader_id}
+					</#if>
+				</td>
+				<td>${b.staCon}</td>
+				<td>${b.expressNo!''}</td>
+				<td>
+					<#if b.sta == 1>
+						<a style="text-decoration:none" onClick="change_sta(this,'${b.id}')" href="javascript:;" title="单击已确认发货"><span class="label label-success radius">确认发货</span></a>
+					</#if>
+				</td>
+			</tr>
+			</#list>
+		</tbody>
+	</table>
+	</div>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${basePath}/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${basePath}/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${basePath}/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="${basePath}/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="${basePath}/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="${basePath}/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="${basePath}/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.table-sort').dataTable({
+		"aaSorting": [[ 0, "desc" ]],//默认第几个排序
+		"bStateSave": true,//状态保存
+		"aoColumnDefs": [
+		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+		  {"orderable":false,"aTargets":[1]}// 制定列不参与排序
+		]
+	});
+	
+});
+//确认发货
+function change_sta(obj, id){
+	var order_no = prompt("请输入该商品的快递编号", "");
+	if(order_no == null || order_no == "") return ;
+	$.ajax({
+		type: 'POST',
+		url: '/XxdOrderExpressNo/insert',
+		data: {orderId : id,orderNo : order_no},
+		dataType: 'json',
+		success: function(data){
+			//添加单号，然后修改当前商品的状态
+			$.ajax({
+				type: 'POST',
+				url: '/XxdBuyOrderDetails/updateByPrimaryKeySelective',
+				data: {id : id,sta : 2},
+				dataType: 'json',
+				success: function(data){
+					layer.msg('已发货，等待确认收货!',{icon:1,time:1000});
+				},
+				error:function(data) {
+					console.log(data.msg);
+				},
+			});
+		},
+		error:function(data) {
+			console.log(data.msg);
+		},
+	});
+}
+</script> 
+</body>
+</html>
