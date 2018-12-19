@@ -1,7 +1,5 @@
 <#assign basePath="" />
-
-<#assign handleRecordCount = handleRecordCount />
-
+<#assign con = con >
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -23,32 +21,42 @@
 <script type="text/javascript" src="${basePath}/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>商品管理</title>
+<title>图片处理</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 商品管理 <span class="c-gray en">&gt;</span> 用户商品管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 商品管理 <span class="c-gray en">&gt;</span> 图片处理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="text-c"> 日期范围：
-		 <input type="text" onFocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;" > 
-	
-		<input type="text" onFocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
-		<input type="text" class="input-text" style="width:250px" placeholder="输入名称" id="dataKey" name="">
-		<button type="submit" class="btn btn-success radius" id="" name="" onclick="dataSearch()"><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
+		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
+		-
+		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
+		<input type="text" class="input-text" style="width:250px" placeholder="输入会员名称、电话、邮箱" id="" name="">
+		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"> <a href="javascript:;" onclick="goods_add('添加','goods_owner_add_edit.html','','')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加修改</a></span> <span class="r">共有数据：<strong>${handleRecordCount}</strong> 条</span> </div>
-<!-- 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel(this)" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="goods_add('添加','goods_owner_add_edit.html','','')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a></span> <span class="r">共有数据：<strong>${handleRecordCount}</strong> 条</span> </div> -->
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel(this)" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="goods_add('添加','goods_owner_add_edit.html','','')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a></span> <span class="r">共有数据：<strong>${con?size}</strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
 			<tr class="text-c">
-				<!-- <th width="20%"><input type="checkbox" name="" value="">全选</th> -->
+				<th width="25"><input type="checkbox" name="" value=""></th>
 				<th width="25%">ID</th>
 				<th width="25%">图片修改名称</th>
 				<th width="25%">图片修改时间</th>
-				<th width="25%"></th>
+				<th width="25%">操作</th>
 			</tr>
 		</thead>
-		<tbody id="lookUp">
+		<tbody>
+			<#list con as c>
+			<tr class="text-c">
+				<td><input type="checkbox" value="${c.id}" name=""></td>
+				<td>${c.id}</td>
+				<td>${c.goodName}</td>
+				<td>${c.handleTime}</td>
+				<td class="td-manage">
+					<input class="btn btn-primary radius size-MINI look-order-report" onClick = "download(${c.id})" style="margin-top:10px;" type="button" value="下载本次处理的所有图片" />
+				</td>
+			</tr>
+			</#list>
 		</tbody>
 	</table>
 	</div>
@@ -65,77 +73,15 @@
 <script type="text/javascript" src="${basePath}/lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
 $(function(){
-	handleAllRecord();
+	$('.table-sort').dataTable({
+		"aaSorting": [[ 3, "desc" ]],//默认第几个排序
+		"bStateSave": true,//状态保存
+		"aoColumnDefs": [
+		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+		  {"orderable":false,"aTargets":[4]}// 制定列不参与排序
+		]
+	});
 });
-
- function handleAllRecord(){
-	$.ajax({
-		url:"/XxdImage/handleAllRecord",
-		type:"POST",
-		dataType:"json",
-		success:function(result){
-			if(result.code == -1 ){
-				var allHandleRecord = result.con;
-				for (var i = 0 ; i < allHandleRecord.length; i++){
-					var goodName = allHandleRecord[i].goodName;
-					var handleTime = allHandleRecord[i].handleTime;
-					var id = allHandleRecord[i].id;
-					 var str='';
-					 str+='	<tr class="text-c">';
-					 /* str+='	<td><input type="checkbox" value="" name=""></td>'; */
-					 str+='	<td>'+id+'</td>';
-					 str+='	<td>'+goodName+'</td>';
-					 str+='	<td>'+handleTime+'</td>';
-					 str+='	<td><button type="button"  class="btn btn-default" id="btn" onClick = "download('+id+')">下载</button></td>';
-					 str+='	</tr>';
-					$("#lookUp").append(str);
-				}
-			}else if(result.code == 1 ){
-					$("#lookUp").append('<div style="font-size:30px;color:red">没有对应记录</div>');
-				}
-		},
-		error:function(){
-			alert("查询异常");
-		}
-	});
-};
-
-function dataSearch(){
-	var firstDate = document.getElementById("datemin").value;
-	var lastDate = document.getElementById("datemax").value;
-	var key = document.getElementById("dataKey").value;
-	$.ajax({
-		type:"POST",
-		url:"/XxdImage/lookUpHandleRecord",
-		dataType:"json",
-		data:{"goodName":key,"handleTime":firstDate,"handleTime2":lastDate},
-		success:function(result){
-			$("#lookUp").empty();
-			var handlePictureRecord = result.con;
-			if(result.code == -1){
-				for (var i = 0 ; i < handlePictureRecord.length ; i++){
-					var goodName = handlePictureRecord[i].goodName;
-					var handleTime = handlePictureRecord[i].handleTime;
-					var id = handlePictureRecord[i].id;
-					var str='';
-					 str+='	<tr class="text-c">';
-				/* 	 str+='	<td><input type="checkbox" value="" name=""></td>'; */
-					 str+='	<td>'+id+'</td>';
-					 str+='	<td>'+goodName+'</td>';
-					 str+='	<td>'+handleTime+'</td>';
-					 str+='	<td><a href="javascript:void(0)"  class="btn btn-default" id="btn" onClick = "download('+id+')">下载</a></td>';
-					 str+='	</tr>';
-					$("#lookUp").append(str);
-				}
-			}else if(result.code == 1){
-				$("#lookUp").append('<div style="font-size:30px;color:red">没有对应记录</div>');
-			}
-		},
-		error:function(){
-			alert("查询异常");
-		}
-	});
-};
 function download(id){
 	//创建url
 	var url = "/XxdImage/downLoadZipFile";

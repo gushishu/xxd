@@ -757,12 +757,11 @@ public class XxdAdminC {
     public  ModelAndView pictureHandleRecord(){
     	ModelAndView mav = new ModelAndView();
     	mav.setViewName("/admin/goods_picture_handle");
-    	/*ArrayList<XxdPictureHandle> allRecord = pictureHandleServiceImp.selectAllRecord();
-    	mav.addObject("allRecord",allRecord);*/
-    	Integer handleRecordCount = pictureHandleServiceImp.selectCountRecord();
-    	mav.addObject("handleRecordCount",handleRecordCount);
+    	ArrayList<XxdPictureHandle> con =  pictureHandleServiceImp.selectAllRecord();
+    	mav.addObject("con", con);
     	return mav;
     }
+    
     
     @AdminLogin
     @RequestMapping("/goods_owner_add_edit.html")
@@ -1323,12 +1322,7 @@ public class XxdAdminC {
     	model.setPictureName(con1.get("file"));
     	model.setSaveDir(con1.get("saveDir"));
     	pictureHandleService.insert(model);
-    	if(con1.get("file").startsWith("x")) {
-    		//x开头的都是图文详情的图片
-    		return Constans.returnCon(2, null);
-    	}else {
-    		return Constans.returnCon(1, null);
-    	}
+    	return Constans.returnCon(1, null);
     }
     
     @AdminLogin
