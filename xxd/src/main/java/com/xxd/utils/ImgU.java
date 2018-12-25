@@ -199,17 +199,13 @@ public class ImgU {
                 MultipartFile file=multiRequest.getFile(iterF.next().toString());
                 String name = file.getName();
                 String fileName = file.getOriginalFilename();
-                
                 //String str = file.getContentType();
                 String path;
                 if(file!=null && !fileName.equals("")){
                 	//检测文件后缀
                 	if(!checkImg(fileName)) return null;
-                	String extensionName = fileName.substring(fileName.lastIndexOf(".") + 1);
-                	Date currentTime = new Date();
-            		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    String newFileName = String.valueOf(System.currentTimeMillis()) + "." + extensionName;
-            		path = imgChangeDir + con.get(name) + (file.getOriginalFilename().startsWith("x") ? Constans.GOODSIMGFONTDIR : Constans.GOODSSHOWIMGDIR) + newFileName ;
+                    String newFileName = fileName;
+            		path = imgChangeDir + con.get(name) +"/" + newFileName;
             		new File(path.substring(0, path.lastIndexOf("/"))).mkdirs();
                 	con.put(name, newFileName);
                 	con.put("saveDir",con.get("code"));
