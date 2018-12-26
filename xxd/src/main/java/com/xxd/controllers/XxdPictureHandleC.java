@@ -66,9 +66,10 @@ public class XxdPictureHandleC {
     @RequestMapping(value = "/insertPictureHandle")
 	public String insertPictureHandle(XxdPictureHandle model, HttpServletRequest request) throws IOException{
 		
-		ImgU.makeImg(Constans.GOODSIMGDIR + model.getSaveDir() + "/si");
-		model.setUrl(imgChangeDir+Constans.GOODSIMGDIR + model.getSaveDir() + "/si/");
+		ImgU.makeImg(Constans.GOODSIMGDIR + model.getSaveDir());
+		model.setUrl(imgChangeDir+Constans.GOODSIMGDIR + model.getSaveDir() + "/");
 		String goodName = model.getGoodName();
+		System.out.println(goodName);
 		Date currentTime = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		model.setHandleTime(formatter.format(currentTime));
