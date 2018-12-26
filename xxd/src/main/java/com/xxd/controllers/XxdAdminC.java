@@ -8,13 +8,10 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.bouncycastle.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.core.OrderComparator.OrderSourceProvider;
-import org.springframework.core.annotation.Order;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +27,6 @@ import com.xxd.models.*;
 import com.xxd.services.impls.*;
 import com.xxd.utils.Constans;
 import com.xxd.utils.ImgU;
-import com.xxd.utils.MySessionContext;
 import com.xxd.utils.U;
 
 /**
@@ -1324,6 +1320,13 @@ public class XxdAdminC {
     	pictureHandleService.insert(model);
     	return Constans.returnCon(1, null);
     }
+    
+//    /**
+//     * 商品的分布信息
+//     */
+//    @AdminLogin
+//    @PostMapping("/goodsData")
+//    public HashMap<String, Object> 
     
     @AdminLogin
     @PostMapping("/imgAdd")
