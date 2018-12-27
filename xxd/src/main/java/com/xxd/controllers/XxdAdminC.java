@@ -8,13 +8,10 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.bouncycastle.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.core.OrderComparator.OrderSourceProvider;
-import org.springframework.core.annotation.Order;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +27,6 @@ import com.xxd.models.*;
 import com.xxd.services.impls.*;
 import com.xxd.utils.Constans;
 import com.xxd.utils.ImgU;
-import com.xxd.utils.MySessionContext;
 import com.xxd.utils.U;
 
 /**
@@ -590,7 +586,7 @@ public class XxdAdminC {
 		Integer imgNum = Integer.parseInt(dirNum[2]);
 		ArrayList<String[]> imgPath = new ArrayList<String[]>();
 		for(int i = 1;i <= imgNum;i ++) {
-			imgPath.add(new String[] {ProperU.read(ProperU.read(Constans.PROSOURCE, "img"), "imgSaveDir") + "/goods/" + dirNum[0] + "/" + dirNum[1] + "/" + i + ".jpg", i+""});
+			imgPath.add(new String[] {ProperU.read(Constans.PROSOURCE, "host") + Constans.IMGHANDLER + "/goods/" + dirNum[0] + "/" + dirNum[1] + "/" + i + ".jpg", i+""});
 		}
 		
 		dir = goods.getShowImgDir();
@@ -598,7 +594,7 @@ public class XxdAdminC {
 		imgNum = Integer.parseInt(dirNum[2]);
 		ArrayList<String[]> imgPath1 = new ArrayList<String[]>();
 		for(int i = 1;i <= imgNum;i ++) {
-			imgPath1.add(new String[] {ProperU.read(ProperU.read(Constans.PROSOURCE, "img"), "imgSaveDir") + "/goods/" + dirNum[0] + "/" + dirNum[1] + "/" + i + ".jpg", i+""});
+			imgPath1.add(new String[] {ProperU.read(Constans.PROSOURCE, "host") + Constans.IMGHANDLER + "/goods/" + dirNum[0] + "/" + dirNum[1] + "/" + i + ".jpg", i+""});
 		}
 		
 		mav.addObject("imgPath", imgPath);
@@ -616,6 +612,7 @@ public class XxdAdminC {
 		mav.addObject("id", id);
 		mav.addObject("saveDir", saveDir);
 		mav.addObject("type", type);
+		mav.addObject("postUrl", ProperU.read(Constans.PROSOURCE, "host"));
 		return mav;
 	}
 	
@@ -658,7 +655,7 @@ public class XxdAdminC {
     @RequestMapping("/show")
     public ResponseEntity<Resource> showPhotos(String filePath, HttpServletRequest request){
 		//应对安全问题，只能指向本地图片的内容
-    	if(!filePath.startsWith(ProperU.read(ProperU.read(Constans.PROSOURCE, "img"), "imgSaveDir"))) {
+    	if(!filePath.startsWith(ProperU.read(Constans.PROSOURCE, "host") + Constans.IMGHANDLER)) {
     		//记录本次访问异常
     		U.logAction("本次图片访问异常！请注意！ip：" + request.getRemoteAddr());
     		return null;
@@ -694,7 +691,7 @@ public class XxdAdminC {
     	//转换规格图片
     	//拆分规格信息
     	for(int i = 0;i < result.size();i ++) {
-    		result.get(i).setImg(ProperU.read(ProperU.read(Constans.PROSOURCE, "img"), "imgSaveDir") + Constans.GOODSIMGDIR + result.get(i).getImg());
+    		result.get(i).setImg(ProperU.read(Constans.PROSOURCE, "host") + Constans.IMGHANDLER + Constans.GOODSIMGDIR + result.get(i).getImg());
     	}
     	mav.addObject("goodsPrice", result);
     	mav.addObject("goods_id", id);
@@ -809,7 +806,7 @@ public class XxdAdminC {
     	ArrayList<XxdOrder> con = buyOrderService.selectAllsByUidType(buy_id, Constans.ORDERBUY);
     	for(int i = 0;i < con.size();i ++) {
     		String[] dirNum = con.get(i).getShow_img_dir().split("/");
-    		con.get(i).setShow_img_dir(ProperU.read(ProperU.read(Constans.PROSOURCE, "img"), "imgSaveDir") + "/goods/" + dirNum[0] + "/" + dirNum[1] + "/1.jpg");
+    		con.get(i).setShow_img_dir(ProperU.read(Constans.PROSOURCE, "host") + Constans.IMGHANDLER + "/goods/" + dirNum[0] + "/" + dirNum[1] + "/1.jpg");
     		con.get(i).setStaCon(Constans.ORDERSTA[con.get(i).getSta()]);
     		U.cancelDisAbleStr(con.get(i));
     	}
@@ -829,7 +826,7 @@ public class XxdAdminC {
     	ArrayList<XxdBuyOrderDetails> buyOrderDetails = buyOrderDetailsService.selectAllByOrderId(order_id, uid);
     	for(int i = 0;i < buyOrderDetails.size();i ++) {
     		String[] dirNum = buyOrderDetails.get(i).getShow_img_dir().split("/");
-    		buyOrderDetails.get(i).setShow_img_dir(ProperU.read(ProperU.read(Constans.PROSOURCE, "img"), "imgSaveDir") + "/goods/" + dirNum[0] + "/" + dirNum[1] + "/1.jpg");
+    		buyOrderDetails.get(i).setShow_img_dir(ProperU.read(Constans.PROSOURCE, "host") + Constans.IMGHANDLER + "/goods/" + dirNum[0] + "/" + dirNum[1] + "/1.jpg");
     		buyOrderDetails.get(i).setStaCon(Constans.ORDERDETAILSSTA[buyOrderDetails.get(i).getSta()]);
     		U.cancelDisAbleStr(buyOrderDetails.get(i));
     	}
@@ -874,7 +871,7 @@ public class XxdAdminC {
 		mav.setViewName("/admin/goods_product_package");
 		ArrayList<XxdGoodsProductPackage> goods = goodsProductPackageService.selectAll();
 		for(int i = 0;i < goods.size();i ++) {
-			goods.get(i).setShowImgDir(ProperU.read(ProperU.read(Constans.PROSOURCE, "img"), "imgSaveDir") + Constans.GOODSIMGDIR + goods.get(i).getShowImgDir());
+			goods.get(i).setShowImgDir(ProperU.read(Constans.PROSOURCE, "host") + Constans.IMGHANDLER + Constans.GOODSIMGDIR + goods.get(i).getShowImgDir());
 		}
 		mav.addObject("goods", goods);
 		return mav;
@@ -889,7 +886,7 @@ public class XxdAdminC {
 		Integer imgNum = Integer.parseInt(dirNum[2]);
 		ArrayList<String[]> imgPath = new ArrayList<String[]>();
 		for(int i = 1;i <= imgNum;i ++) {
-			imgPath.add(new String[] {ProperU.read(ProperU.read(Constans.PROSOURCE, "img"), "imgSaveDir") + Constans.GOODSIMGDIR + dirNum[0] + "/" + dirNum[1] + "/" + i + ".jpg", i+""});
+			imgPath.add(new String[] {ProperU.read(Constans.PROSOURCE, "host") + Constans.IMGHANDLER + Constans.GOODSIMGDIR + dirNum[0] + "/" + dirNum[1] + "/" + i + ".jpg", i+""});
 		}
 		mav.addObject("imgPath", imgPath);
 		mav.addObject("id", id);
@@ -916,7 +913,7 @@ public class XxdAdminC {
     	mav.setViewName("/admin/goods_product_package_edit");
     	XxdGoodsProductPackage goods = goodsProductPackageService.selectByPrimaryKey(id);
     	goods.setImgFontDir(goods.getShowImgDir().split("/")[0]);
-    	goods.setShowImgDir(ProperU.read(ProperU.read(Constans.PROSOURCE, "img"), "imgSaveDir") + Constans.GOODSIMGDIR + goods.getShowImgDir());
+    	goods.setShowImgDir(ProperU.read(Constans.PROSOURCE, "host") + Constans.IMGHANDLER + Constans.GOODSIMGDIR + goods.getShowImgDir());
     	mav.addObject("goods", goods);
     	return mav;
     }
@@ -975,7 +972,7 @@ public class XxdAdminC {
     	ArrayList<XxdBuyOrderDetails>  con = buyOrderDetailsService.selectAllByOrderId1(order_id);
     	for(int i = 0;i < con.size();i ++) {
     		String[] dirNum = con.get(i).getShow_img_dir().split("/");
-    		con.get(i).setShow_img_dir(ProperU.read(ProperU.read(Constans.PROSOURCE, "img"), "imgSaveDir") + "/goods/" + dirNum[0] + "/" + dirNum[1] + "/1.jpg");
+    		con.get(i).setShow_img_dir(ProperU.read(Constans.PROSOURCE, "host") + Constans.IMGHANDLER + "/goods/" + dirNum[0] + "/" + dirNum[1] + "/1.jpg");
     		con.get(i).setStaCon(Constans.ORDERDETAILSSTA[con.get(i).getSta()]);
     		U.cancelDisAbleStr(con.get(i));
     	}
@@ -991,7 +988,7 @@ public class XxdAdminC {
     	ArrayList<XxdOrder> con = buyOrderService.selectAllsByUidType(0, Constans.ORDERBUY);
     	for(int i = 0;i < con.size();i ++) {
     		String[] dirNum = con.get(i).getShow_img_dir().split("/");
-    		con.get(i).setShow_img_dir(ProperU.read(ProperU.read(Constans.PROSOURCE, "img"), "imgSaveDir") + "/goods/" + dirNum[0] + "/" + dirNum[1] + "/1.jpg");
+    		con.get(i).setShow_img_dir(ProperU.read(Constans.PROSOURCE, "host") + Constans.IMGHANDLER + "/goods/" + dirNum[0] + "/" + dirNum[1] + "/1.jpg");
     		con.get(i).setStaCon(Constans.ORDERSTA[con.get(i).getSta()]);
     		con.get(i).setOrder_id(Integer.parseInt(con.get(i).getOrder_id() + "" + con.get(i).getId()));
     	}
@@ -1324,6 +1321,13 @@ public class XxdAdminC {
     	pictureHandleService.insert(model);
     	return Constans.returnCon(1, null);
     }
+    
+//    /**
+//     * 商品的分布信息
+//     */
+//    @AdminLogin
+//    @PostMapping("/goodsData")
+//    public HashMap<String, Object> 
     
     @AdminLogin
     @PostMapping("/imgAdd")
