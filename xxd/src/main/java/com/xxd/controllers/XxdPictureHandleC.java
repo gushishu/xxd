@@ -23,7 +23,6 @@ import com.xxd.models.XxdPictureUnion;
 import com.xxd.services.impls.XxdPictureHandleSI;
 import com.xxd.utils.Constans;
 import com.xxd.utils.ImgU;
-import com.xxd.utils.PictureHandleResult;
 import com.xxd.utils.ProperU;
 import com.xxd.utils.ZipUtils;
 

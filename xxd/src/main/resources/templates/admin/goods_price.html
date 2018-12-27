@@ -56,7 +56,7 @@
 				<td>${g.marketPrice?string('0.00')}</td>
 				<td>${g.memberPrice?string('0.00')}</td>
 				<td>${g.num?string('0')}</td>
-				<td><img height="50" src="/admin/show?filePath=${g.img}"></td>
+				<td><img height="50" src="${g.img}"></td>
 				<td>${g.remark}</td>
 				<td class="td-manage">
 					<a title="编辑" href="javascript:;" onClick="goods_price_edit(${g.goodsId}, ${g.id}, '${g.formatName}', ${g.price?string('0.00')}, ${g.marketPrice?string('0.00')}, ${g.memberPrice?string('0.00')}, ${g.num?string('0')}, '${g.img}', '${g.remark}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>

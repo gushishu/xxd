@@ -49,6 +49,10 @@ public class XxdUserSI implements XxdUserS{
 		result += integrationService.insert(integration);
 		return result;
 	}
+	
+	public static void main(String[] args) {
+		System.out.println(U.md5Hex("A07F4F18C3" + "9943"));
+	}
 
 	@Override
 	public Integer delete(Integer uid, Short type, Integer parent_id) {

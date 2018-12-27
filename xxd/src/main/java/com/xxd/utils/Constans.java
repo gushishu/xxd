@@ -74,12 +74,16 @@ public class Constans {
 	
 	//商品图片存储规则
 	public static final String GOODSIMGDIR = "/goods/";
+	//商品规格图片临时保存路径
+	public static final String GOODSTMPDIR = "/tmp/";
 	//商品规格图片存储规则
 	public static final String GOODSPRICEIMGDIR = "/price/";
 	//商品轮播图片存储规则
 	public static final String GOODSSHOWIMGDIR = "/si/";
 	//商品图文详情存储规则
 	public static final String GOODSIMGFONTDIR = "/if/";
+	//图片服务器资源
+	public static final String IMGHANDLER = "/img";
 	
 	//商品规格名称拼接符
 	public static final String GOODSPRICECONCATSTR = "_xxd_";
