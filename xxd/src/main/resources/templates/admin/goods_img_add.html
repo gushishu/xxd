@@ -1,6 +1,7 @@
 <#assign basePath="" />
 <#assign saveDir=saveDir />
 <#assign id=id />
+<#assign postUrl=postUrl />
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -241,7 +242,8 @@ $(".btn-primary").bind("click", function(){
             chunked: false,
             chunkSize: 512 * 1024,
             //上传时携带上当前商品对应的文件夹地址
-            server: '/admin/imgAdd?saveDir=${saveDir}',
+            method: 'POST',
+            server: '${postUrl}/page/goodsImgAdd?saveDir=${saveDir}',
             //禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
             disableGlobalDnd: true,
             fileNumLimit: 300,
@@ -249,6 +251,7 @@ $(".btn-primary").bind("click", function(){
             fileSingleSizeLimit: 5 * 1024 * 1024    // 5 M
         });
 
+       	
         // 拖拽时不接受 js, txt 文件。
         uploader.on( 'dndAccept', function( items ) {
             var denied = false,

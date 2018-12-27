@@ -88,19 +88,6 @@ public class ImgU {
                 	//检测文件后缀
     				if(!checkImg(fileName)) return null;
     				
-    				//检测文件大小
-    				//if(!checkSize(file)) return null;
-                	
-//                    //判断是文件还是图片
-//                    if(str.split("/")[0].equals("image")){
-//                        //拼接图片保存路径
-//                        path = ConstantManager.IMGURL + file.getOriginalFilename();
-//                        mapImg.put(name, path);
-//                    }else{
-//                        //拼接文件保存路径
-//                        path = ConstantManager.FILEURL + file.getOriginalFilename();
-//                        mapFile.put(name, path);
-//                    }
                 	//判断当前需要上传的文件是否有自定义名称
                 	if(!con.get(name).equals("")) {
                 		path = imgSaveDir + con.get(name) + ".jpg";

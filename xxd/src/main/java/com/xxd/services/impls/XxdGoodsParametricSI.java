@@ -42,7 +42,7 @@ public class XxdGoodsParametricSI implements XxdGoodsParametricS{
 
 	@Override
 	public ArrayList<XxdGoodsParametric> selectByGoodsId(Integer goodsId) {
-		return  null; //mapper.selectByGoodsId(goodsId);
+		return mapper.selectByGoodsId(goodsId);
 	}
 
 }
