@@ -45,4 +45,9 @@ public class XxdUserAddrSI implements XxdUserAddrS{
 		return mapper.selectAll();
 	}
 
+	@Override
+	public XxdUserAddr selectById(Integer primaryKey) {
+		return mapper.selectById(primaryKey);
+	}
+
 }

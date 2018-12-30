@@ -303,11 +303,13 @@ public interface XxdBuyOrderMapper {
         "and xgp.id = xbod.price",
         "and xbo.id = xbod.buy_order_id",
         "and xbo.buy_id = xu.uid",
-        "and xbo.type = #{type, jdbcType=SMALLINT} group by xbod.id"
+        "and xbo.type = #{type, jdbcType=SMALLINT}",
+        "and xbo.sta = 2",
+        "group by xbod.id"
     })
     @Results({
     	@Result(column="id", property="id", jdbcType=JdbcType.INTEGER),
-    	@Result(column="order_id", property="order_id", jdbcType=JdbcType.INTEGER),
+    	@Result(column="order_id", property="order_id", jdbcType=JdbcType.VARCHAR),
         @Result(column="time", property="time", jdbcType=JdbcType.VARCHAR),
         @Result(column="show_img_dir", property="show_img_dir", jdbcType=JdbcType.VARCHAR),
         @Result(column="num", property="num", jdbcType=JdbcType.INTEGER),

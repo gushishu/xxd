@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 public class XxdOrder {
 	
 	private Integer id;
-	private Integer order_id;
+	private String order_id;
 	private String name;
 	private String show_img_dir;
 	private Integer num;
@@ -132,11 +132,11 @@ public class XxdOrder {
 		this.expressNo = expressNo;
 	}
 
-	public Integer getOrder_id() {
+	public String getOrder_id() {
 		return order_id;
 	}
 
-	public void setOrder_id(Integer order_id) {
+	public void setOrder_id(String order_id) {
 		this.order_id = order_id;
 	}
 

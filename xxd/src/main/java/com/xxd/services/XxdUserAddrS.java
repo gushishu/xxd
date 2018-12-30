@@ -14,6 +14,8 @@ public interface XxdUserAddrS {
 
 	public XxdUserAddr selectByPrimaryKey(Integer primaryKey);
 	
+	public XxdUserAddr selectById(Integer primaryKey);
+	
 	public ArrayList<XxdUserAddr> selectByUid(Integer uid);
 
 	public ArrayList<XxdUserAddr> selectAll();
