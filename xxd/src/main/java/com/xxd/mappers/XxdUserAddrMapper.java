@@ -84,6 +84,24 @@ public interface XxdUserAddrMapper {
     
     @Select({
         "select",
+        "id, phone, name, telephone, addr, addr_details, tags, remark",
+        "from xxd_buy_order_addr",
+        "where id = #{id,jdbcType=INTEGER}"
+    })
+    @Results({
+        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+        @Result(column="phone", property="phone", jdbcType=JdbcType.VARCHAR),
+        @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
+        @Result(column="telephone", property="telephone", jdbcType=JdbcType.VARCHAR),
+        @Result(column="addr", property="addr", jdbcType=JdbcType.VARCHAR),
+        @Result(column="addr_details", property="addrDetails", jdbcType=JdbcType.VARCHAR),
+        @Result(column="tags", property="tags", jdbcType=JdbcType.VARCHAR),
+        @Result(column="remark", property="remark", jdbcType=JdbcType.VARCHAR)
+    })
+    XxdUserAddr selectById(Integer id);
+    
+    @Select({
+        "select",
         "id, phone, name, telephone, addr, addr_details, tags, remark, uid, is_first",
         "from xxd_user_addr",
         "where uid = #{uid,jdbcType=INTEGER}"

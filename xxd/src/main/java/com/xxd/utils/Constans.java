@@ -56,8 +56,8 @@ public class Constans {
 	public static final Short BUYORDERHAVEEND = 3;
 	public static final Short BUYORDERWAITEND = 4;
 	
-	//订单状态
-	public static final String[] ORDERSTA = new String[] {"", "待发货", "待确认收货", "已完成", "超时已收货"};
+	//订单付款状态
+	public static final String[] ORDERSTA = new String[] {"", "待付款", "已付款"};
 	
 	//商品类型
 	public static final Short GOODSOWNER = 2;
