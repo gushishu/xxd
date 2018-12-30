@@ -807,7 +807,8 @@ public class XxdAdminC {
     	for(int i = 0;i < con.size();i ++) {
     		String[] dirNum = con.get(i).getShow_img_dir().split("/");
     		con.get(i).setShow_img_dir(ProperU.read(Constans.PROSOURCE, "host") + Constans.IMGHANDLER + "/goods/" + dirNum[0] + "/" + dirNum[1] + "/1.jpg");
-    		con.get(i).setStaCon(Constans.ORDERSTA[con.get(i).getSta()]);
+    		con.get(i).setStaCon(Constans.ORDERDETAILSSTA[con.get(i).getSta()]);
+    		con.get(i).setOrder_id(con.get(i).getOrder_id() + "" + con.get(i).getId());
     		U.cancelDisAbleStr(con.get(i));
     	}
     	mav.addObject("sellerOrder", con);
@@ -842,7 +843,7 @@ public class XxdAdminC {
     public ModelAndView userAddrHtml(Integer addr_id) {
     	ModelAndView mav = new ModelAndView();
     	mav.setViewName("/admin/user_addr");
-    	XxdUserAddr userAddr = userAddrService.selectByPrimaryKey(addr_id);
+    	XxdUserAddr userAddr = userAddrService.selectById(addr_id);
     	mav.addObject("userAddr", userAddr);
     	return mav;
     }
@@ -958,7 +959,7 @@ public class XxdAdminC {
     	mav.setViewName("/admin/order_product_package");
     	ArrayList<XxdBuyOrder> con = buyOrderService.selectAllByType(Short.parseShort("1"));
     	for(int i = 0;i < con.size();i ++) {
-    		con.get(i).setStaCon(Constans.ORDERSTA[con.get(i).getSta()]);
+    		con.get(i).setStaCon(Constans.ORDERDETAILSSTA[con.get(i).getSta()]);
     	}
     	mav.addObject("con", con);
     	return mav;
@@ -989,8 +990,8 @@ public class XxdAdminC {
     	for(int i = 0;i < con.size();i ++) {
     		String[] dirNum = con.get(i).getShow_img_dir().split("/");
     		con.get(i).setShow_img_dir(ProperU.read(Constans.PROSOURCE, "host") + Constans.IMGHANDLER + "/goods/" + dirNum[0] + "/" + dirNum[1] + "/1.jpg");
-    		con.get(i).setStaCon(Constans.ORDERSTA[con.get(i).getSta()]);
-    		con.get(i).setOrder_id(Integer.parseInt(con.get(i).getOrder_id() + "" + con.get(i).getId()));
+    		con.get(i).setStaCon(Constans.ORDERDETAILSSTA[con.get(i).getSta()]);
+    		con.get(i).setOrder_id(con.get(i).getOrder_id() + "" + con.get(i).getId());
     	}
     	mav.addObject("orderOwner", con);
     	return mav;
