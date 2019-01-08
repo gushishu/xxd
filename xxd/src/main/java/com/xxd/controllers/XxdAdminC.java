@@ -577,6 +577,7 @@ public class XxdAdminC {
 	@AdminLogin
 	@RequestMapping("/goods_img.html")
 	public ModelAndView goodsImgHtml(Integer id) {
+		System.out.println(id);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/admin/goods_img");
 		//由于刷新,因此需要重新查询当前内容
@@ -728,6 +729,12 @@ public class XxdAdminC {
     @Autowired
     private XxdBuyOrderSI buyOrderService;
     
+    @Autowired
+    private XxdFeedBackSI feedBackService;
+    
+    @Autowired
+    private XxdUserHopeBuySI xxdUserHopeBuySI;
+    
     @AdminLogin
     @PostMapping("/orders")
     @ResponseBody
@@ -737,6 +744,67 @@ public class XxdAdminC {
     	con.put("count",count);*/
     	
     	return Constans.returnCon(1,con);
+    }
+    
+    @AdminLogin
+    @RequestMapping("/user_feedback.html")
+    public  ModelAndView userSuggestion(){
+    	ModelAndView mav = new ModelAndView();
+    	mav.setViewName("/admin/user_feedback");
+    	ArrayList<XxdFeedBack> feedBack = feedBackService.selectAllFeedBack();
+    	ArrayList<XxdFeedBacks>  feedBacks = new ArrayList<XxdFeedBacks>();
+    	for(Integer i = 0 ; i < feedBack.size() ; i ++) {
+    		if(feedBack.get(i).getContent() == null) {
+    			feedBack.get(i).setContent("");
+    		}    
+    		if(feedBack.get(i).getSave_dir() == null) {
+    			feedBack.get(i).setSave_dir("");
+    		}
+    		XxdFeedBacks xxdFeedBacks = new XxdFeedBacks();
+    		xxdFeedBacks.setId(feedBack.get(i).getId());
+    		xxdFeedBacks.setName(feedBack.get(i).getName());
+    		xxdFeedBacks.setSave_dir(feedBack.get(i).getSave_dir());
+    		xxdFeedBacks.setTime(feedBack.get(i).getTime());
+    		xxdFeedBacks.setUid(feedBack.get(i).getUid());
+    		xxdFeedBacks.setContent(feedBack.get(i).getContent());
+    		if(feedBack.get(i).getIs_read() == 1) {
+    			xxdFeedBacks.setIs_read("未读");
+    		}else {
+    			xxdFeedBacks.setIs_read("已读");
+    		}
+    		if(feedBack.get(i).getType() == 1) {
+    			xxdFeedBacks.setType("产品建议");
+    		}else if(feedBack.get(i).getType() == 2) {
+    			xxdFeedBacks.setType("数据有误");
+    		}else if(feedBack.get(i).getType() == 3) {
+    			xxdFeedBacks.setType("程序错误");
+    		}else if(feedBack.get(i).getType() == 4) {
+    			xxdFeedBacks.setType("其他");
+    		}
+    		feedBacks.add(xxdFeedBacks);
+    	}
+    	mav.addObject("feedBacks" , feedBacks);
+    	return mav;
+    }
+    
+    @AdminLogin
+    @RequestMapping("/user_hope_buy.html")
+    public  ModelAndView userHopeBuy(){
+    	ModelAndView mav = new ModelAndView();
+    	mav.setViewName("/admin/user_hope_buy");
+    	ArrayList<XxdUserHopeBuy> hopeBuy = xxdUserHopeBuySI.selectAllUserHopeBuy();
+    	for(Integer i = 0 ; i < hopeBuy.size(); i++) {
+    		if(hopeBuy.get(i).getContents() == null) {
+    			hopeBuy.get(i).setContents("");
+    		}
+    		if(hopeBuy.get(i).getGoodsImg() == null) {
+    			hopeBuy.get(i).setGoodsImg("");
+    		}else {
+    			hopeBuy.get(i).setGoodsImg(Constans.USERHOPEBUYIMG + hopeBuy.get(i).getGoodsImg());
+    		}
+    	}
+    	mav.addObject("hopeBuy" , hopeBuy);
+    	return mav;
     }
     
     @AdminLogin
@@ -780,7 +848,6 @@ public class XxdAdminC {
     public  ModelAndView OrderCount2(String time){
     	ModelAndView mav = new ModelAndView();
     	mav.setViewName("/admin/order_pie");
-    	
     	return mav;
     }
     

@@ -323,6 +323,26 @@
 				</dd>
 			</dl>
 			</#if>
+			<#if plp?seq_contains("/admin/user_feedback.html") || plp?seq_contains("/admin/user_hope_buy.html")>
+			<dl id="menu-system">
+				<dt>
+					<i class="Hui-iconfont">&#xe621;</i> 用户反馈<i
+						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
+				</dt>
+				<dd>
+					<ul>
+						<#if plp?seq_contains("/admin/user_feedback.html")>
+						<li><a data-href="user_feedback.html" data-title="用户建议"
+							href="javascript:void(0)">用户建议</a></li>
+						</#if>
+						<#if plp?seq_contains("/admin/user_hope_buy.html")>
+						<li><a data-href="user_hope_buy.html" data-title="用户想购"
+							href="javascript:void(0)">用户想购</a></li>
+						</#if>
+					</ul>
+				</dd>
+			</dl>
+			</#if>
 		</div>
 	</aside>
 	<div class="dislpayArrow hidden-xs">

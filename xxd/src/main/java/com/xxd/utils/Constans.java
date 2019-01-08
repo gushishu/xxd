@@ -14,6 +14,8 @@ public class Constans {
 	public static final String PROSOURCE = "F:/pro/pro.properties";
 	//public static final String PROSOURCE = "/home/xxd/xxdAdmin/pro/pro.properties";
 	
+	//极光推送配置文件
+	public static final String SYSTEM_PROPERTIES = "system.properties";
 	//统一的Ajax返回格式
 	public static HashMap<String, Object> returnCon(final int code, final Object con){
 		HashMap<String, Object> result =  new HashMap<String, Object>();
@@ -66,7 +68,7 @@ public class Constans {
 	//检查处理图片是否存在
 	public static final Short CODE_PICTURE_HANDLE_ERROR = 1;
 	public static final Short CODE_PICTURE_HANDLE_SUCCESS = 0;
-	public static final String PARAM_PICTURE_HANDLE_ERROR = "名称已存在，换个名字,";
+	public static final String PARAM_PICTURE_HANDLE_ERROR = "名称已存在，换个名字";
 	public static final String PARAM_PICTURE_HANDLE_SUCCESS = "商品不存在，添加吧";
 	
 	//权限类型
@@ -96,4 +98,7 @@ public class Constans {
 	public static final String UPDATESUCCESSHTML = "/admin/successU";
 	//修改失败页面
 	public static final String UPDATEERRORHTML = "/admin/errorU";
+	
+	//用户希望购买图片
+	public static final String USERHOPEBUYIMG = "http://img.huoxiaoxiao.com/img/hopeBuy/";
 }
