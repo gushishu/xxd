@@ -2,20 +2,30 @@ package com.xxd.utils;
 
 import org.apache.commons.codec.binary.Hex;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.xxd.models.XxdUser;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * 超级工具类
@@ -252,12 +262,32 @@ public class U {
 //		photosNumsAl.add(2, Integer.parseInt(str[2]));
 //		System.out.println(photosNumsAl.get(1));
 		
-		XxdUser model = new XxdUser();
-		model.setBankCard("");
-		model.setBankLocation("aaaa");
-		cancelDisAbleStr(model);
-		System.out.println(Integer.parseInt(model.getBankCard()));
-		System.out.println(model.getBankLocation());
+//		XxdUser model = new XxdUser();
+//		model.setBankCard("");
+//		model.setBankLocation("aaaa");
+//		cancelDisAbleStr(model);
+//		System.out.println(Integer.parseInt(model.getBankCard()));
+//		System.out.println(model.getBankLocation());
+//		
+		
+		
+		int width=300;
+        int height=300;
+        String format="png";
+        String contents="http://huoxiaoxiao.com/home/download";
+        HashMap map=new HashMap();
+        map.put(EncodeHintType.CHARACTER_SET, "utf-8");
+        map.put(EncodeHintType.ERROR_CORRECTION,ErrorCorrectionLevel.M);
+        map.put(EncodeHintType.MARGIN, 0);
+        try {
+            BitMatrix bm = new MultiFormatWriter().encode(contents, BarcodeFormat.QR_CODE, width, height);
+            Path file=new File("D:/img.png").toPath();
+            MatrixToImageWriter.writeToPath(bm, format, file);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 	
 }
