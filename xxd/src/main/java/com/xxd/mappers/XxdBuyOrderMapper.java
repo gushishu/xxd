@@ -107,7 +107,7 @@ public interface XxdBuyOrderMapper {
     	"SELECT",
     	"xbo.time",
     	"FROM xxd_buy_order xbo INNER JOIN xxd_user xu ON xbo.buy_id = xu.uid ",
-    	"WHERE (xu.type =2 OR xu.type=3) AND xbo.time BETWEEN DATE_FORMAT(#{type,jdbcType=VARCHAR},'%Y-%m-%d 00:00:00')  AND DATE_FORMAT(#{type,jdbcType=VARCHAR},'%Y-%m-%d 23:59:59')"
+    	"WHERE xbo.sta = 2 AND (xu.type =2 OR xu.type=3) AND xbo.time BETWEEN DATE_FORMAT(#{type,jdbcType=VARCHAR},'%Y-%m-%d 00:00:00')  AND DATE_FORMAT(#{type,jdbcType=VARCHAR},'%Y-%m-%d 23:59:59')"
     })
     @Results({
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
@@ -145,7 +145,7 @@ public interface XxdBuyOrderMapper {
     	"SELECT",
     	"xbo.time",
     	"FROM xxd_buy_order xbo INNER JOIN xxd_user xu ON xbo.buy_id = xu.uid ",
-    	"WHERE xu.type =4 AND xbo.time BETWEEN DATE_FORMAT(#{type,jdbcType=VARCHAR},'%Y-%m-%d 00:00:00')  AND DATE_FORMAT(#{type,jdbcType=VARCHAR},'%Y-%m-%d 23:59:59')"
+    	"WHERE  xbo.sta = 2 AND xu.type = 4 AND xbo.time BETWEEN DATE_FORMAT(#{type,jdbcType=VARCHAR},'%Y-%m-%d 00:00:00')  AND DATE_FORMAT(#{type,jdbcType=VARCHAR},'%Y-%m-%d 23:59:59')"
     })
     @Results({
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
@@ -164,7 +164,7 @@ public interface XxdBuyOrderMapper {
     	"SELECT",
     	"COUNT(*)",
     	"FROM xxd_buy_order xbo INNER JOIN xxd_user xu ON xbo.buy_id = xu.uid ",
-    	"WHERE xu.type =4 AND xbo.time BETWEEN DATE_FORMAT(#{type,jdbcType=VARCHAR},'%Y-%m-%d 00:00:00')  AND DATE_FORMAT(#{type,jdbcType=VARCHAR},'%Y-%m-%d 23:59:59')"
+    	"WHERE  xu.type =4 AND xbo.time BETWEEN DATE_FORMAT(#{type,jdbcType=VARCHAR},'%Y-%m-%d 00:00:00')  AND DATE_FORMAT(#{type,jdbcType=VARCHAR},'%Y-%m-%d 23:59:59')"
     })
     @Results({
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
@@ -182,8 +182,8 @@ public interface XxdBuyOrderMapper {
     @Select({
     	"SELECT",
     	"xbo.time",
-    	"FROM xxd_buy_order xbo INNER JOIN xxd_user xu ON xbo.buy_id = xu.uid ",
-    	"WHERE  xbo.time BETWEEN DATE_FORMAT(#{type,jdbcType=VARCHAR},'%Y-%m-%d 00:00:00')  AND DATE_FORMAT(#{type,jdbcType=VARCHAR},'%Y-%m-%d 23:59:59')"
+    	"FROM xxd_buy_order xbo INNER JOIN xxd_user xu ON xbo.buy_id = xu.uid",
+    	"WHERE  xbo.sta = 2 AND xbo.time BETWEEN DATE_FORMAT(#{type,jdbcType=VARCHAR},'%Y-%m-%d 00:00:00')  AND DATE_FORMAT(#{type,jdbcType=VARCHAR},'%Y-%m-%d 23:59:59')"
     })
     @Results({
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),

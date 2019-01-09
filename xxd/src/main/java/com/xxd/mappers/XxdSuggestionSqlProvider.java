@@ -46,6 +46,10 @@ public class XxdSuggestionSqlProvider {
             VALUES("uid", "#{uid,jdbcType=INTEGER}");
         }
         
+        if (record.getType() != null) {
+            VALUES("type", "#{type,jdbcType=SMALLINT}");
+        }
+        
         return SQL();
     }
 
@@ -77,6 +81,10 @@ public class XxdSuggestionSqlProvider {
         
         if (record.getUid() != null) {
             SET("uid = #{uid,jdbcType=INTEGER}");
+        }
+        
+        if (record.getType() != null) {
+            SET("type = #{type,jdbcType=SMALLINT}");
         }
         
         WHERE("id = #{id,jdbcType=INTEGER}");

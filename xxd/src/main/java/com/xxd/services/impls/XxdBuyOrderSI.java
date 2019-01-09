@@ -81,17 +81,17 @@ public class XxdBuyOrderSI implements XxdBuyOrderS{
 		//计数
 		for(XxdBuyOrder xbo : allOrder){
 			try {
-			String time = xbo.getTime();
-			SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date date2 = sdf.parse(time);
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(date2);
-			int hour =  calendar.get(Calendar.HOUR);
-			for(Integer i = 0; i < allCount.length; i++){
-				if( hour== i){
-					allCount[i] +=1;
+				String time = xbo.getTime();
+				SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date date2 = sdf.parse(time);
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(date2);
+				int hour =  calendar.get(Calendar.HOUR_OF_DAY);
+				for(Integer i = 0; i < allCount.length; i++){
+					if( hour== i){
+						allCount[i] +=1;
+					}
 				}
-			}
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -117,7 +117,7 @@ public class XxdBuyOrderSI implements XxdBuyOrderS{
 			Date date2 = sdf.parse(time);
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(date2);
-			int hour =  calendar.get(Calendar.HOUR);
+			int hour =  calendar.get(Calendar.HOUR_OF_DAY);
 			for(Integer i = 0; i < upMemberCount.length; i++){
 				if( hour== i){
 					upMemberCount[i] +=1;
@@ -148,7 +148,7 @@ public class XxdBuyOrderSI implements XxdBuyOrderS{
 			Date date2 = sdf.parse(time);
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(date2);
-			int hour =  calendar.get(Calendar.HOUR);
+			int hour =  calendar.get(Calendar.HOUR_OF_DAY);
 			for(Integer i = 0; i < memberCount.length; i++){
 				if( hour== i){
 					memberCount[i] +=1;
