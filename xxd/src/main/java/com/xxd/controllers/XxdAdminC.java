@@ -627,6 +627,7 @@ public class XxdAdminC {
 		String time = U.md5Hex(System.currentTimeMillis()+"");
 		String nowTime = time.substring(time.length()/2);
 		mav.addObject("saveDir", nowTime);
+		mav.addObject("postUrl", ProperU.read(Constans.PROSOURCE, "host"));
 		return mav;
 	}
 	

@@ -2,6 +2,7 @@
 <#assign saveDir=saveDir />
 <#assign uid=uid />
 <#assign type=type />
+<#assign postUrl=postUrl />
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -302,7 +303,8 @@ $(".btn-primary").bind("click", function(){
             chunked: false,
             chunkSize: 512 * 1024,
             //上传时携带上当前商品对应的文件夹地址
-            server: '/admin/imgTest?saveDir=${saveDir}',
+            method: 'POST',
+            server: '${postUrl}/page/goodsImgAdd?saveDir=${saveDir}',
             //禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
             disableGlobalDnd: true,
             fileNumLimit: 300,
