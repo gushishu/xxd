@@ -24,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.xxd.utils.ProperU;
 import com.xxd.annotations.AdminLogin;
 import com.xxd.models.*;
+import com.xxd.services.XxdGoodsGroupS;
+import com.xxd.services.XxdGoodsPriceGroupS;
 import com.xxd.services.impls.*;
 import com.xxd.utils.Constans;
 import com.xxd.utils.ImgU;
@@ -736,6 +738,12 @@ public class XxdAdminC {
     @Autowired
     private XxdUserHopeBuySI xxdUserHopeBuySI;
     
+    @Autowired
+    private XxdGoodsPriceGroupS xxdGoodsPriceGroupS;
+    
+    @Autowired
+    private XxdGoodsGroupS xxdGoodsGroupS;
+    
     @AdminLogin
     @PostMapping("/orders")
     @ResponseBody
@@ -753,6 +761,7 @@ public class XxdAdminC {
     	ModelAndView mav = new ModelAndView();
     	mav.setViewName("/admin/user_feedback");
     	ArrayList<XxdFeedBack> feedBack = feedBackService.selectAllFeedBack();
+    	
     	ArrayList<XxdFeedBacks>  feedBacks = new ArrayList<XxdFeedBacks>();
     	for(Integer i = 0 ; i < feedBack.size() ; i ++) {
     		if(feedBack.get(i).getContent() == null) {
@@ -851,6 +860,43 @@ public class XxdAdminC {
     	mav.setViewName("/admin/order_pie");
     	return mav;
     }
+    
+    @AdminLogin
+    @RequestMapping("/goods_group.html")
+    public ModelAndView goods_group(Integer goodsId) {
+    	ModelAndView mav = new ModelAndView();
+    	mav.setViewName("/admin/goods_group");
+    	ArrayList<XxdGoodsPriceGroup> goodsPriceGroup = new ArrayList<XxdGoodsPriceGroup>();
+    	ArrayList<XxdGoodsParametric> xxdGoodsParametric = goodsParametricService.selectByGoodsId(goodsId);
+        ArrayList<XxdGoodsPrice> xxdGoodsPrices = goodsPriceService.selectAllByGoodsId(goodsId);
+        XxdGoodsGroup xxdGoodsGroup = new XxdGoodsGroup();
+        xxdGoodsGroup.setGoodsId(goodsId);
+    	    	for(Integer i = 0 ; i < xxdGoodsPrices.size(); i ++) {
+    	    		XxdGoodsPriceGroup  xxdGoodsPriceGroups = new XxdGoodsPriceGroup();
+    	    		XxdGoodsPrice xxdGoodsPrice = xxdGoodsPrices.get(i);
+    	    		BigDecimal memberPrice = xxdGoodsPrice.getMemberPrice();
+    	    		BigDecimal price = xxdGoodsPrice.getPrice();
+    	    		BigDecimal price2 = new BigDecimal("0.3");
+    	    		BigDecimal price3 = memberPrice.subtract(price);
+    	    		BigDecimal price4 = price3.multiply(price2);
+    	    		BigDecimal price5 = memberPrice.subtract(price4);
+    	    		xxdGoodsPriceGroups.setSign(i);
+    	    		xxdGoodsPriceGroups.setFormatName((xxdGoodsPrice.getFormatName()));
+    	    		xxdGoodsPriceGroups.setMarketPrice(xxdGoodsPrice.getMarketPrice());
+    	    		xxdGoodsPriceGroups.setMemberPrice(xxdGoodsPrice.getMemberPrice());
+    	    		xxdGoodsPriceGroups.setPrice(xxdGoodsPrice.getPrice());
+    	    		xxdGoodsPriceGroups.setGroupMemberPrice(price5);
+    	    		//转换规格图片
+    	        	//拆分规格信息
+    	    		xxdGoodsPriceGroups.setImg(ProperU.read(Constans.PROSOURCE, "host") + Constans.IMGHANDLER + Constans.GOODSIMGDIR + xxdGoodsPrice.getImg());
+    	    		goodsPriceGroup.add(xxdGoodsPriceGroups);
+    	    	}
+    	mav.addObject("goodsId", goodsId);
+    	mav.addObject("xxdGoodsParametric", xxdGoodsParametric);
+    	mav.addObject("goodsPriceGroup", goodsPriceGroup);
+    	return mav;
+    }
+    
     
     @AdminLogin
     @RequestMapping("/order_buy.html")

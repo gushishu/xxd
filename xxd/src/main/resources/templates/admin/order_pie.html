@@ -189,7 +189,7 @@ function count(){
 $.ajax({
 	type:'POST',
 	url:'/XxdUser/selectUserIncrease',
-	dateType:'json',
+	dataType:'json',
 	success:function(result){
 		var con = result.con;
 		var allUserIncrease = con.allUserIncrease;

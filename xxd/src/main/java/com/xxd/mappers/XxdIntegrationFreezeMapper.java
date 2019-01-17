@@ -135,7 +135,7 @@ public interface XxdIntegrationFreezeMapper {
         "select",
         "xif.id id, xif.integration integration, xif.uid uid, xif.odid odid",
         "from xxd_integration_freeze xif left join xxd_buy_order_details xbod on xif.odid = xbod.id",
-        "where xif.times is null and DATE_ADD(xif.time, interval 3 day) < now() and (xif.freeze_type = 2 or xif.freeze_type = 4 or xif.freeze_type = 5) and xif.uid > 0 and xbod.sta = 2"
+        "where xif.times is null and DATE_ADD(xif.time, interval 5 day) < now() and (xif.freeze_type = 2 or xif.freeze_type = 4 or xif.freeze_type = 5) and xif.uid > 0 and xbod.sta = 2"
     })
     @Results({
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),

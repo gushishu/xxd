@@ -47,6 +47,7 @@
 				<th width="40">图片信息</th>
 				<th width="40">价格信息</th>
 				<th width="40">属性信息</th>
+				<th width="40">拼团</th>
 				<th width="40">操作</th>
 			</tr>
 		</thead>
@@ -75,6 +76,9 @@
 				</td>
 				<td>
 					<input class="btn btn-primary radius size-MINI look-goods-report" onClick="goods_parametric_show('属性信息', this, '${g.id}')" style="margin-top:10px;" type="button" value="属性信息" />
+				</td>
+				<td>
+					<input class="btn btn-primary radius size-MINI look-goods-report" onClick="goods_group_handle('拼团', this, '${g.id}')" style="margin-top:10px;" type="button" value="拼团" />
 				</td>
 				<td class="td-manage">
 					<a title="编辑" href="javascript:;" onclick="goods_edit('编辑','goods_owner_edit.html','${g.id}','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
@@ -155,6 +159,14 @@ function member_show(title,url,id,w,h){
 //显示商品属性信息
 function goods_parametric_show(title, obj, id){
 	layer_show(title, "goods_parametric.html?goodsId="+id+"", "", 510);
+}
+//拼团页面
+function goods_group_handle(title, obj, id){
+	var w = "";
+	w += document.body.clientWidth;
+	var h = "";
+	h += document.body.clientHeight;
+	layer_show(title, "goods_group.html?goodsId="+id+"","","");
 }
 /*下架*/
 function grounding_stop(obj,id){

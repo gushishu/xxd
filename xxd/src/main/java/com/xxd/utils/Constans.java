@@ -15,7 +15,7 @@ public class Constans {
 	//public static final String PROSOURCE = "/home/xxd/xxdAdmin/pro/pro.properties";
 	
 	//极光推送配置文件
-	public static final String SYSTEM_PROPERTIES = "system.properties";
+	public static final String SYSTEM_PROPERTIES = "F:/pro/system.properties";
 	//统一的Ajax返回格式
 	public static HashMap<String, Object> returnCon(final int code, final Object con){
 		HashMap<String, Object> result =  new HashMap<String, Object>();
@@ -80,6 +80,8 @@ public class Constans {
 	public static final String GOODSTMPDIR = "/tmp/";
 	//商品规格图片存储规则
 	public static final String GOODSPRICEIMGDIR = "/price/";
+	//拼团活动图片存储规则
+	public static final String GOODSGROUPUMGDIR = "/groups/";
 	//商品轮播图片存储规则
 	public static final String GOODSSHOWIMGDIR = "/si/";
 	//商品图文详情存储规则

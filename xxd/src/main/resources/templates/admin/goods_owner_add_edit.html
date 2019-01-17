@@ -156,7 +156,6 @@ $(".btn-primary").bind("click", function(){
 		 var name = $("input[name=goodName]").val();
 		if(name == null || name == ""){
 			layer.msg('请填写修改商品名称!',{icon:5,time:1000});
-			alert(name);
 			return ;
 		}
 		$("#form-article-add").submit();

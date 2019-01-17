@@ -1,0 +1,405 @@
+<#assign basePath="" />
+<#assign goodsPriceGroup = goodsPriceGroup />
+<#assign goodsId = goodsId />
+<#assign xxdGoodsParametric = xxdGoodsParametric />
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="${basePath}/lib/html5shiv.js"></script>
+<script type="text/javascript" src="${basePath}/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${basePath}/static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="${basePath}/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<style type="text/css">
+.icon {
+	width: 2em;
+	height: 2em;
+	vertical-align: -0.15em;
+	fill: currentColor;
+	overflow: hidden;
+}
+
+.addImg {
+	fill: #cdcdcd;
+	width: 190px;
+	height: 190px;
+}
+.upload-input {
+	display: none;
+}
+.preview {
+	position: absolute;
+    width: 170px;
+    height: 170px;
+    left: 9px;
+    top: 10px;
+}
+.click {
+	position: absolute;
+	width: 190px;
+	height: 190px;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	cursor: pointer;
+}
+.delete {
+	position: absolute;
+    right: 26px;
+    top: -1rem;
+    cursor: pointer;
+    display: none;
+    z-index: 30;
+}
+.up-del {
+	position: absolute;
+	left: 193px;
+	top: -5px;
+	cursor: pointer;
+	display: none;
+	z-index: 30;
+	width: 28px;
+	height: 28px;
+}
+.preview img {
+	width: 100%;
+	height: 100%;
+	    margin-left: 17px;
+		    border: 1px #ccc solid;
+    padding: 5px;
+}
+
+.up-sfz{float: left;
+    
+    margin-left: -30px;}
+	.up-sfz-d{float: left;
+    
+    margin-left: -44px;}
+	.up-sfz-tishi{    margin-top: 50px;
+    overflow: hidden;}
+	
+	.up-sfz-left{margin-left:2px;}
+	.up-sfz-de-left{position: absolute;
+    /* margin-left: 24px; 
+    display: block;*/
+    left: 179px;}
+	.m-16-left{    margin-left: -16px;}
+</style>
+<style type="text/css">
+.clearfix:after{content:"\20";display:block;height:0;clear:both;visibility:hidden}.clearfix{zoom:1}
+.tabBar {border-bottom: 2px solid #222}
+.tabBar span {background-color: #e8e8e8;cursor: pointer;display: inline-block;float: left;font-weight: bold;height: 30px;line-height: 30px;padding: 0 15px}
+.tabBar span.current{background-color: #222;color: #fff}
+.tabCon {display: none}
+</style>
+<title>拼团</title>
+</head>
+<body>
+<div class="page-container">
+	<div id="tab_demo" class="HuiTab">
+	  <div class="tabBar clearfix"><span>商品信息</span><span onclick="num()">拼团信息</span></div>
+	  <div class="tabCon">
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+			<span class="l">
+				<a href="javascript:void(0);"  class="btn btn-primary radius"><i class="Hui-iconfont"></i>价格信息</a>
+			</span>
+			<span class="r">
+				共有数据：<strong>${goodsPriceGroup?size}</strong> 条
+			</span>
+		</div>
+		<div class="mt-20">
+			<table class="table table-border table-bordered table-hover table-bg table-sort" id = "priceNum">
+				<thead>
+					<tr class="text-c">
+						<th width="25"><input type="checkbox" name="" value=""></th>
+					<th width="70">规格名称</th>
+					<th width="40">成本价</th>
+					<th width="40">市场价</th>
+					<th width="40">团员价</th>
+					<th width="40">拼团价</th>
+					<th width="40">库存</th>
+					<th width="40">展示图</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#list goodsPriceGroup as g>
+					<tr class="text-c">
+						<td><input name="checkbox" type="checkbox" value="${g.sign}" ></td>
+						<td><input type = "hidden" value= "${g.formatName}" name = "formatName${g.sign}">${g.formatName}</td>
+						<td><input type = "hidden" value= "${g.price?string('0.00')}" name = "price${g.sign}">${g.price?string('0.00')}</td>
+						<td><input type = "hidden" value= "${g.marketPrice?string('0.00')}" name = "marketPrice${g.sign}">${g.marketPrice?string('0.00')}</td>
+						<td><input type = "hidden" value= "${g.memberPrice?string('0.00')}" name = "memberPrice${g.sign}">${g.memberPrice?string('0.00')}</td>
+						<td><input type = "hidden" value= "${g.groupMemberPrice?string('0.00')}" name = "groupMenmberPrice${g.sign}">${g.groupMemberPrice?string('0.00')}</td>
+						<td><input type="number" class="goodsPriceGroupNum" value="" placeholder="" id="num" name="num${g.sign}"  style="width:100px"></td>
+						<td><input type="hidden" value="${g.img}" name = "img${g.sign}"><img height="50" src="${g.img}"></td>
+					</tr>
+				</#list>
+				</tbody>
+			</table>
+	  	</div><br><br>
+	  	<div class="cl pd-5 bg-1 bk-gray mt-20">
+	  		<span class="l">
+				<a href="javascript:void(0);"  class="btn btn-primary radius"><i class="Hui-iconfont"></i>属性信息</a>
+			</span>
+			<span class="r">
+				共有数据：<strong>${xxdGoodsParametric?size}</strong> 条
+			</span>
+		</div>
+		<div class="mt-20">
+			<table class="table table-border table-bordered table-hover table-bg table-sort">
+			<thead>
+				<tr class="text-c">
+					<th width="40">ID</th>
+					<th width="70">属性名称</th>
+					<th width="40">属性值</th>
+				</tr>
+			</thead>
+			<tbody>
+				<#list xxdGoodsParametric as gp>
+				<tr class="text-c">
+					<td>${gp.id}</td>
+					<td>${gp.name}</td>
+					<td>${gp.value}</td>
+				</tr>
+				</#list>
+			</tbody>
+		</table>
+	  	</div>
+	  </div>
+	  <div class="tabCon">
+		<div class="cl pd-5 bg-1 bk-gray mt-20" >
+		<span class="l">
+			<a href="javascript:void(0);"  class="btn btn-primary radius"><i class="Hui-iconfont"></i> 拼团信息</a>
+		</span>
+	</div>
+		<form class="form form-horizontal" id = "formGroup"  enctype="multipart/form-data" method="post">
+			<input type="hidden" name="goodsId" id="id" value="${goodsId}" />
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>拼团活动标题：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" value="" placeholder="" id="" name="groupTitle">
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>拼团人数：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" value="" placeholder="" id="" name="groupNum">
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>开始时间：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" value="" placeholder="" id="" name="groupStartTime">
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>结束时间：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" class="input-text" value="" placeholder="" id="" name="groupEndTime">
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>活动图片：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<div class="up-sfz col-xs-6 col-sm-6 col-md-3 up-sfz-left2"> 
+	                   <svg class="icon addImg" aria-hidden="true">
+	                     <use xlink:href="#icon-tianjiatupian"></use>
+	                     </svg>
+	                     	<input name="file" type="file" class="upload_input" onChange="preview(this)" style="display: none;"/>
+	                     <div class="preview"></div>
+	                      <div class="click" onClick="loadImg(this)"></div>
+	                      <div class="delete up-del" onClick="deleteImg(this)"> 
+	                            <svg class="icon" aria-hidden="true"><use xlink:href="#icon-shanchu4"></use></svg> 
+	                       </div>
+	                </div>
+				</div>
+			</div>
+			<div class="row cl">
+				<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+					<input class="btn btn-primary radius" type="submit" onclick = "num()" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${basePath}/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${basePath}/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${basePath}/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="${basePath}/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${basePath}/static/xxd/js/svg.js"></script>
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="${basePath}/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="${basePath}/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="${basePath}/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.table-sort').dataTable({
+		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
+		"bStateSave": true,//状态保存
+		"aoColumnDefs": [
+		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+		  {"orderable":false,"aTargets":[0]}// 制定列不参与排序
+		]
+	});
+	$('.table-sort1').dataTable({
+		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
+		"bStateSave": true,//状态保存
+		"aoColumnDefs": [
+		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+		  {"orderable":false,"aTargets":[0]}// 制定列不参与排序
+		]
+	});
+	$('#tab_demo').Huitab();
+});
+/*判断为空未输入
+ * 
+ */
+/* $(".btn-primary").bind("click", function(){
+	
+	var goodsPriceGroupNum = ${goodsPriceGroup?size};
+	for(var i = 0 ; i < goodsPriceGroupNum ; i++){
+		var numName = 'num' + i;
+		
+		var num = $("input[name='"+numName+"']").val();
+		if(num == null || num == ""){
+			alert("直接这里不走了吗？");
+			layer.msg('请填写拼团商品库存!',{icon:5,time:1000});
+			return ;
+		}
+	}
+	
+}) */
+//选择图片
+function loadImg(obj){
+  $(obj).parent().find(".upload_input").click();
+}
+//删除
+function deleteImg(obj){
+  $(obj).parent().find('input').val('');
+  $(obj).parent().find('.preview').html('');
+  $(obj).hide();
+}
+ 
+function preview(file) {
+	var prevDiv = $(file).parent().find('.preview');
+	if (file.files && file.files[0]) {
+	  var reader = new FileReader();
+	  reader.onload = function(evt) {
+	    prevDiv.html('<img src="' + evt.target.result + '" />');
+	  }
+	  reader.readAsDataURL(file.files[0]);
+	} else {//IE
+	  prevDiv.html('<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + file.value + '\'"></div>');
+	}
+	$(file).parent().find('.delete').show();
+}
+/*删除价格信息*/
+function datadel(){
+	layer.confirm('确认要删除这个吗？',function(index){
+		$.each($('input:checkbox'),function(){
+            if(this.checked){
+            	$(this).parent().parent().remove();
+            }
+        });
+		layer.msg('已删除!',{icon:1,time:1000});
+	});
+}
+function num(){
+	var flag = true;//是否全部输入
+	var goodsPriceGroupNum = ${goodsPriceGroup?size};
+	var goodsIds = ${goodsId};
+	var datas=[];
+	
+	for(var i = 0; i < goodsPriceGroupNum; i ++ ){
+		var data = {};
+		var formatNameXin = 'formatName' + i;
+		var priceXin = 'price' + i;
+		var marketPriceXin = 'marketPrice' + i;
+		var memberPriceXin = 'memberPrice' + i;
+		var groupMemberPriceXin = 'groupMenmberPrice' + i;
+		var numXin = 'num' + i;
+		var imgXin = 'img' + i;
+		$(":input[name='"+formatNameXin+"']").val();
+		$(":input[name='"+priceXin+"']").val();
+		$(":input[name='"+marketPriceXin+"']").val();
+		$(":input[name='"+memberPriceXin+"']").val();
+		$(":input[name='"+groupMemberPriceXin+"']").val();
+		$(":input[name='"+numXin+"']").val();
+		if($(":input[name='"+numXin+"']").val()== ""){
+			flag = false;
+		}
+		$(":input[name='"+imgXin+"']").val();
+		data["formatName"] = $(":input[name='"+formatNameXin+"']").val();
+		data["price"] = $(":input[name='"+priceXin+"']").val();
+		data["marketPrice"] = $(":input[name='"+marketPriceXin+"']").val();
+		data["memberPrice"] = $(":input[name='"+memberPriceXin+"']").val();
+		data["groupMemberPrice"] = $(":input[name='"+groupMemberPriceXin+"']").val();
+		data["goodsPriceStock"] = $(":input[name='"+numXin+"']").val();
+		data["img"] = $(":input[name='"+imgXin+"']").val();
+		datas.push(data);
+		var jsonString = JSON.stringify(datas);
+		var epc = eval("("+jsonString+")");
+		
+	}
+	
+	
+	var groupTitle = $("input[name ='groupTitle']").val();
+	var groupNum = $("input[name = 'groupNum']").val();
+	var groupStartTime = $("input[name= 'groupStartTime']").val();
+	var groupEndTime = $("input[name = 'groupEndTime']").val();
+	var fileImg = $("input[name = 'file']").val();
+	if(groupTitle == "" || groupTitle== null || groupTitle == undefined){
+		alert("请输入拼团活动标题！");
+		return false;
+	}else if(groupNum == "" || groupNum == null || groupNum == undefined){
+		alert("请输入拼团活动人数！");
+		return false;
+	} else if(groupStartTime == "" || groupStartTime == null || groupStartTime == undefined){
+		alert("请选择拼团活动开始时间！");
+		return false;
+	} else if(groupEndTime == "" || groupEndTime == null || groupEndTime == undefined){
+		alert("请选择拼团活动结束时间！");
+		return false;
+	} else if(fileImg == "" || fileImg == null || fileImg == undefined){
+		alert("请上传拼团活动图片！");
+		return false;
+	} else {
+		$("#formGroup").submit();
+	}
+	/* $("#priceNum input").each(function(){
+		if($(this).val() == ""){//有空输入，将flag置为false
+			flag = false;//
+		}
+	}); */
+	if(flag){
+		$.ajax({
+			type:'POST',
+			url:'/XxdGoodsGroup/updateGroupGoods',
+			dataType:'json',
+			data:{'datas':JSON.stringify(datas)},
+			success:function(result){
+			}
+		});
+	}else{
+		alert("请输入拼团商品库存！");
+		return false;
+	}
+}
+</script> 
+</body>
+</html>
