@@ -20,14 +20,14 @@ public class XxdGoodsPriceGroupSI implements XxdGoodsPriceGroupS {
 		return mapper.insert(model);
 	}
 
-	@Override
+	/*@Override
 	public ArrayList<XxdGoodsPriceGroup> selectByGoodsId(Integer Id) {
 		return mapper.selectByGroupId(Id);
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public XxdGoodsPriceGroup selectByGoodsIdFomatName(XxdGoodsPriceGroup xxdGoodsPriceGroup) {
 		return mapper.selectByGroupIdFormatName(xxdGoodsPriceGroup);
-	}
+	}*/
 
 }

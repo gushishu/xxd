@@ -8,7 +8,7 @@ public interface XxdGoodsPriceGroupS {
 
 	public Integer insert(XxdGoodsPriceGroup model);
 	
-	public ArrayList<XxdGoodsPriceGroup> selectByGoodsId(Integer orderId);
+	/*public ArrayList<XxdGoodsPriceGroup> selectByGoodsId(Integer orderId);*/
 	
-	public XxdGoodsPriceGroup selectByGoodsIdFomatName(XxdGoodsPriceGroup xxdGoodsPriceGroup);
+	/*public XxdGoodsPriceGroup selectByGoodsIdFomatName(XxdGoodsPriceGroup xxdGoodsPriceGroup);*/
 }
