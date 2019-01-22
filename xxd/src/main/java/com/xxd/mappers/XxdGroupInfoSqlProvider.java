@@ -50,6 +50,10 @@ public class XxdGroupInfoSqlProvider {
             VALUES("is_head", "#{isHead,jdbcType=VARCHAR}");
         }
         
+        if (record.getSta() != null) {
+            VALUES("sta", "#{sta,jdbcType=SMALLINT}");
+        }
+        
         return SQL();
     }
 
@@ -85,6 +89,10 @@ public class XxdGroupInfoSqlProvider {
         
         if (record.getIsHead() != null) {
             SET("is_head = #{isHead,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getSta() != null) {
+            SET("sta = #{sta,jdbcType=SMALLINT}");
         }
         
         WHERE("id = #{id,jdbcType=INTEGER}");
