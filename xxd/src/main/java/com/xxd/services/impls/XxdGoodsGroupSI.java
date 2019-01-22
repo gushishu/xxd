@@ -1,7 +1,5 @@
 package com.xxd.services.impls;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,19 +20,14 @@ public class XxdGoodsGroupSI implements XxdGoodsGroupS{
 	}
 
 	@Override
-	public ArrayList<XxdGoodsGroup> selectByGoodsId(Integer goodsId) {
-		return mapper.selectBygoodsId(goodsId);
+	public Integer selectByGoodsId(Integer goodsId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public Integer updateInsertByPrimaryKeySelective(XxdGoodsGroup model) {
 		return mapper.updateByPrimaryKey(model);
-	}
-
-	@Override
-	public Integer selectByGroupTimes(Integer groupTimes) {
-		
-		return mapper.selectByGroupTimes(groupTimes);
 	}
 	
 	

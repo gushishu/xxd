@@ -738,6 +738,12 @@ public class XxdAdminC {
     @Autowired
     private XxdUserHopeBuySI xxdUserHopeBuySI;
     
+    @Autowired
+    private XxdGoodsPriceGroupS xxdGoodsPriceGroupS;
+    
+    @Autowired
+    private XxdGoodsGroupS xxdGoodsGroupS;
+    
     @AdminLogin
     @PostMapping("/orders")
     @ResponseBody
@@ -874,7 +880,6 @@ public class XxdAdminC {
     	    		BigDecimal price3 = memberPrice.subtract(price);
     	    		BigDecimal price4 = price3.multiply(price2);
     	    		BigDecimal price5 = memberPrice.subtract(price4);
-    	    		xxdGoodsPriceGroups.setId(xxdGoodsPrice.getId());
     	    		xxdGoodsPriceGroups.setSign(i);
     	    		xxdGoodsPriceGroups.setFormatName((xxdGoodsPrice.getFormatName()));
     	    		xxdGoodsPriceGroups.setMarketPrice(xxdGoodsPrice.getMarketPrice());

@@ -34,11 +34,11 @@ public interface XxdGroupInfoMapper {
         "insert into xxd_group_info (id, uid, ",
         "no, buy_order_id, ",
         "photo, into_time, ",
-        "is_head, sta)",
+        "is_head)",
         "values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, ",
         "#{no,jdbcType=VARCHAR}, #{buyOrderId,jdbcType=INTEGER}, ",
         "#{photo,jdbcType=VARCHAR}, #{intoTime,jdbcType=VARCHAR}, ",
-        "#{isHead,jdbcType=VARCHAR}, #{sta,jdbcType=SMALLINT})"
+        "#{isHead,jdbcType=VARCHAR})"
     })
     int insert(XxdGroupInfo record);
 
@@ -59,7 +59,7 @@ public interface XxdGroupInfoMapper {
      */
     @Select({
         "select",
-        "id, uid, no, buy_order_id, photo, into_time, is_head, sta",
+        "id, uid, no, buy_order_id, photo, into_time, is_head",
         "from xxd_group_info",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -70,8 +70,7 @@ public interface XxdGroupInfoMapper {
         @Result(column="buy_order_id", property="buyOrderId", jdbcType=JdbcType.INTEGER),
         @Result(column="photo", property="photo", jdbcType=JdbcType.VARCHAR),
         @Result(column="into_time", property="intoTime", jdbcType=JdbcType.VARCHAR),
-        @Result(column="is_head", property="isHead", jdbcType=JdbcType.VARCHAR),
-        @Result(column="sta", property="sta", jdbcType=JdbcType.SMALLINT)
+        @Result(column="is_head", property="isHead", jdbcType=JdbcType.VARCHAR)
     })
     XxdGroupInfo selectByPrimaryKey(Integer id);
 
@@ -97,8 +96,7 @@ public interface XxdGroupInfoMapper {
           "buy_order_id = #{buyOrderId,jdbcType=INTEGER},",
           "photo = #{photo,jdbcType=VARCHAR},",
           "into_time = #{intoTime,jdbcType=VARCHAR},",
-          "is_head = #{isHead,jdbcType=VARCHAR},",
-          "sta = #{sta,jdbcType=SMALLINT}",
+          "is_head = #{isHead,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(XxdGroupInfo record);

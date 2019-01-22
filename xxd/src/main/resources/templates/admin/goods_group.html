@@ -110,9 +110,9 @@
 <body>
 <div class="page-container">
 	<div id="tab_demo" class="HuiTab">
-	  <div class="tabBar clearfix" style="position: fixed; top: 0px;z-index: 1000;width: calc(100% - 40px);margin: 0px; background: #f7f7f7;padding: 0px;border-bottom: 0px;box-shadow: 0px 5px 5px #ccc;"><span>商品信息</span><span>拼团信息</span></div>
-	  <div class="tabCon" style="margin-top:32px">
-		<div class="cl pd-5 bg-1 bk-gray mt-20" style="top:32px">
+	  <div class="tabBar clearfix"><span>商品信息</span><span onclick="num()">拼团信息</span></div>
+	  <div class="tabCon">
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
 			<span class="l">
 				<a href="javascript:void(0);"  class="btn btn-primary radius"><i class="Hui-iconfont"></i>价格信息</a>
 			</span>
@@ -132,21 +132,19 @@
 					<th width="40">拼团价</th>
 					<th width="40">库存</th>
 					<th width="40">展示图</th>
-					<th width="40">操作</th>
 					</tr>
 				</thead>
 				<tbody>
 					<#list goodsPriceGroup as g>
 					<tr class="text-c">
-						<td><input name="id${g.sign}" type="checkbox" value="${g.id}" ></td>
+						<td><input name="checkbox" type="checkbox" value="${g.sign}" ></td>
 						<td><input type = "hidden" value= "${g.formatName}" name = "formatName${g.sign}">${g.formatName}</td>
 						<td><input type = "hidden" value= "${g.price?string('0.00')}" name = "price${g.sign}">${g.price?string('0.00')}</td>
 						<td><input type = "hidden" value= "${g.marketPrice?string('0.00')}" name = "marketPrice${g.sign}">${g.marketPrice?string('0.00')}</td>
 						<td><input type = "hidden" value= "${g.memberPrice?string('0.00')}" name = "memberPrice${g.sign}">${g.memberPrice?string('0.00')}</td>
 						<td><input type = "hidden" value= "${g.groupMemberPrice?string('0.00')}" name = "groupMenmberPrice${g.sign}">${g.groupMemberPrice?string('0.00')}</td>
-						<td><input type="number" min = "0" class="goodsPriceGroupNum" value="" placeholder="" id="num" name="num${g.sign}"  style="width:100px"></td>
+						<td><input type="number" class="goodsPriceGroupNum" value="" placeholder="" id="num" name="num${g.sign}"  style="width:100px"></td>
 						<td><input type="hidden" value="${g.img}" name = "img${g.sign}"><img height="50" src="${g.img}"></td>
-						<td> <a href="javascript:void(0);" onclick="datadel(this)" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 删除</a></td>
 					</tr>
 				</#list>
 				</tbody>
@@ -181,13 +179,13 @@
 		</table>
 	  	</div>
 	  </div>
-	  <div class="tabCon" style="margin-top:32px">
+	  <div class="tabCon">
 		<div class="cl pd-5 bg-1 bk-gray mt-20" >
 		<span class="l">
 			<a href="javascript:void(0);"  class="btn btn-primary radius"><i class="Hui-iconfont"></i> 拼团信息</a>
 		</span>
 	</div>
-		<form class="form form-horizontal" id = "formGroup"  action ="/XxdGoodsGroup/uploadImg" enctype="multipart/form-data" method="post">
+		<form class="form form-horizontal" id = "formGroup"  enctype="multipart/form-data" method="post">
 			<input type="hidden" name="goodsId" id="id" value="${goodsId}" />
 			<div class="row cl">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>拼团活动标题：</label>
@@ -204,16 +202,13 @@
 			<div class="row cl">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>开始时间：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<!-- <input type="text" autocomplete="off" onclick="WdatePicker({minDate:'%y-%M-{%d+1} %H:%m:%s'})" id="datemin" class="input-text Wdate" style="width:120px;" name="groupStartTime"> -->
-					<input type="text" autocomplete="off" onclick="WdatePicker({minDate:'%y-%M-{%d+1}'})" id="datemin" class="input-text Wdate" style="width:120px;" name="groupStartTime">
-					<input type="text" autocomplete="off" onclick="WdatePicker({dateFmt:'HH',minDate:'00:00:00'})" id="hourmin" class="input-text Wdate" style="width:120px;" name="groupStartTimeHour">
+					<input type="text" class="input-text" value="" placeholder="" id="" name="groupStartTime">
 				</div>
 			</div>
 			<div class="row cl">
 				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>结束时间：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" autocomplete="off" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}'})" id="datemax" class="input-text Wdate" style="width:120px;" name="groupEndTime">
-					<input type="text" autocomplete="off" onclick="WdatePicker({dateFmt:'HH',minDate:'#F{$dp.$D(\'hourmin\',{H:+1})}'}) " id="hourmax" class="input-text Wdate" style="width:120px;" name="groupEndTimeHour">
+					<input type="text" class="input-text" value="" placeholder="" id="" name="groupEndTime">
 				</div>
 			</div>
 			<div class="row cl">
@@ -234,7 +229,7 @@
 			</div>
 			<div class="row cl">
 				<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-					<input class="btn btn-primary radius btn-primary-radius" type="submit"  value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+					<input class="btn btn-primary radius" type="submit" onclick = "num()" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
 				</div>
 			</div>
 		</form>
@@ -271,109 +266,24 @@ $(function(){
 	});
 	$('#tab_demo').Huitab();
 });
-
-/*
- * 判断为空未输入
+/*判断为空未输入
+ * 
  */
-$(".btn-primary-radius").bind("click", function(){
+/* $(".btn-primary").bind("click", function(){
 	
-	var flag = false;//是否全部输入
 	var goodsPriceGroupNum = ${goodsPriceGroup?size};
-	var goodsIds = ${goodsId};
-	var datas=[];
-	var datas2 = [];
-	for(var i = 0; i < goodsPriceGroupNum; i ++ ){
-		var data = {};
-		var data2 = {};
-		var idXin = 'id' + i;
-		var formatNameXin = 'formatName' + i;
-		var priceXin = 'price' + i;
-		var marketPriceXin = 'marketPrice' + i;
-		var memberPriceXin = 'memberPrice' + i;
-		var groupMemberPriceXin = 'groupMenmberPrice' + i;
-		var numXin = 'num' + i;
-		var imgXin = 'img' + i;
-		/* $(":input[name='"+id+"']").val();
-		$(":input[name='"+formatNameXin+"']").val();
-		$(":input[name='"+priceXin+"']").val();
-		$(":input[name='"+marketPriceXin+"']").val();
-		$(":input[name='"+memberPriceXin+"']").val();
-		$(":input[name='"+groupMemberPriceXin+"']").val();
-		$(":input[name='"+numXin+"']").val(); 
-		$(":input[name='"+imgXin+"']").val();*/
-		if($(":input[name='"+numXin+"']").val()== ""){
-			flag = true;
+	for(var i = 0 ; i < goodsPriceGroupNum ; i++){
+		var numName = 'num' + i;
+		
+		var num = $("input[name='"+numName+"']").val();
+		if(num == null || num == ""){
+			alert("直接这里不走了吗？");
+			layer.msg('请填写拼团商品库存!',{icon:5,time:1000});
+			return ;
 		}
-		data["id"] = $(":input[name='"+id+"']").val();
-		data["goodsId"] = ${goodsId};
-		data["formatName"] = $(":input[name='"+formatNameXin+"']").val();
-		data["price"] = $(":input[name='"+priceXin+"']").val();
-		data["marketPrice"] = $(":input[name='"+marketPriceXin+"']").val();
-		data["memberPrice"] = $(":input[name='"+memberPriceXin+"']").val();
-		data["groupMemberPrice"] = $(":input[name='"+groupMemberPriceXin+"']").val();
-		data["goodsPriceStock"] = $(":input[name='"+numXin+"']").val();
-		data["goodsPriceStockBak"] = $(":input[name='"+numXin+"']").val();
-		data["img"] = $(":input[name='"+imgXin+"']").val();
-		datas.push(data);
-		var jsonString = JSON.stringify(datas);
-		var epc = eval("("+jsonString+")");
 	}
 	
-	
-	
-	var groupTitle = $("input[name ='groupTitle']").val();
-	var groupNum = $("input[name = 'groupNum']").val();
-	var groupStartTime = $("input[name= 'groupStartTime']").val();
-	var groupStartTimeHour = $("input[name= 'groupStartTimeHour']").val();
-	var groupEndTime = $("input[name = 'groupEndTime']").val();
-	var groupEndTimeHour = $("input[name= 'groupEndTimeHour']").val();
-	var fileImg = $("input[name = 'file']").val();
-	data2["goodsId"] = ${goodsId};
-	data2["groupTitle"] = $("input[name ='groupTitle']").val();
-	data2["groupNum"] = $("input[name = 'groupNum']").val();
-	data2["groupStartTime"] = $("input[name= 'groupStartTime']").val();
-	data2["groupStartTimeHour"] = $("input[name= 'groupStartTimeHour']").val();
-	data2["groupEndTime"] = $("input[name = 'groupEndTime']").val();
-	data2["groupEndTimeHour"] = $("input[name= 'groupEndTimeHour']").val();
-	datas2.push(data2);
-	
-	
-	if(flag){
-		alert("请输入拼团商品库存！");
-		return false;
-	}else if(groupTitle == "" || groupTitle== null || groupTitle == undefined){
-		alert("请输入拼团活动标题！");
-		return false;
-	}else if(groupNum == "" || groupNum == null || groupNum == undefined){
-		alert("请输入拼团活动人数！");
-		return false;
-	} else if(groupStartTime == "" || groupStartTime == null || groupStartTime == undefined){
-		alert("请选择拼团活动开始时间！");
-		return false;
-	} else if(groupStartTimeHour == "" || groupStartTimeHour == null || groupStartTimeHour == undefined){
-		alert("请选择拼团活动开始时间");
-		return false;
-	} else if(groupEndTime == "" || groupEndTime == null || groupEndTime == undefined){
-		alert("请选择拼团活动结束时间！");
-		return false;
-	} else if(groupEndTimeHour == "" || groupEndTimeHour == null ||groupEndTime == undefined){
-		alert("请选择拼团活动结束时间！");
-		return false;
-	}else if(fileImg == "" || fileImg == null || fileImg == undefined){
-		alert("请上传拼团活动图片！");
-		return false;
-	} else {
-		$.ajax({
-			type:'POST',
-			url:'/XxdGoodsGroup/updateGroupGoods',
-			dataType:'json',
-			data:{'datas':JSON.stringify(datas),'datas2':JSON.stringify(datas2)},
-			success:function(result){
-			}
-		});
-		$("#formGroup").submit();
-	}
-}) 
+}) */
 //选择图片
 function loadImg(obj){
   $(obj).parent().find(".upload_input").click();
@@ -399,22 +309,17 @@ function preview(file) {
 	$(file).parent().find('.delete').show();
 }
 /*删除价格信息*/
-function datadel(obj){
-	
-	/* layer.confirm('确认要删除这个吗？',function(index){
+function datadel(){
+	layer.confirm('确认要删除这个吗？',function(index){
 		$.each($('input:checkbox'),function(){
             if(this.checked){
             	$(this).parent().parent().remove();
             }
         });
 		layer.msg('已删除!',{icon:1,time:1000});
-	});  */
-	layer.confirm('确认要删除这个吗？',function(index){
-		$(obj).parent().parent().remove();
-		layer.msg('已删除!',{icon:1,time:1000});
 	});
 }
-/* function num(){
+function num(){
 	var flag = true;//是否全部输入
 	var goodsPriceGroupNum = ${goodsPriceGroup?size};
 	var goodsIds = ${goodsId};
@@ -451,13 +356,37 @@ function datadel(obj){
 		var epc = eval("("+jsonString+")");
 		
 	}
-	 */
+	
+	
+	var groupTitle = $("input[name ='groupTitle']").val();
+	var groupNum = $("input[name = 'groupNum']").val();
+	var groupStartTime = $("input[name= 'groupStartTime']").val();
+	var groupEndTime = $("input[name = 'groupEndTime']").val();
+	var fileImg = $("input[name = 'file']").val();
+	if(groupTitle == "" || groupTitle== null || groupTitle == undefined){
+		alert("请输入拼团活动标题！");
+		return false;
+	}else if(groupNum == "" || groupNum == null || groupNum == undefined){
+		alert("请输入拼团活动人数！");
+		return false;
+	} else if(groupStartTime == "" || groupStartTime == null || groupStartTime == undefined){
+		alert("请选择拼团活动开始时间！");
+		return false;
+	} else if(groupEndTime == "" || groupEndTime == null || groupEndTime == undefined){
+		alert("请选择拼团活动结束时间！");
+		return false;
+	} else if(fileImg == "" || fileImg == null || fileImg == undefined){
+		alert("请上传拼团活动图片！");
+		return false;
+	} else {
+		$("#formGroup").submit();
+	}
 	/* $("#priceNum input").each(function(){
 		if($(this).val() == ""){//有空输入，将flag置为false
 			flag = false;//
 		}
 	}); */
-	/*  if(flag){
+	if(flag){
 		$.ajax({
 			type:'POST',
 			url:'/XxdGoodsGroup/updateGroupGoods',
@@ -469,8 +398,8 @@ function datadel(obj){
 	}else{
 		alert("请输入拼团商品库存！");
 		return false;
-	} 
-} */
+	}
+}
 </script> 
 </body>
 </html>

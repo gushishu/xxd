@@ -58,10 +58,6 @@ public class XxdGoodsPriceGroupSqlProvider {
             VALUES("price", "#{price,jdbcType=DECIMAL}");
         }
         
-        if (record.getGoodsPriceStockBak() != null) {
-            VALUES("goods_price_stock_bak", "#{goodsPriceStockBak,jdbcType=INTEGER}");
-        }
-        
         return SQL();
     }
 
@@ -105,10 +101,6 @@ public class XxdGoodsPriceGroupSqlProvider {
         
         if (record.getPrice() != null) {
             SET("price = #{price,jdbcType=DECIMAL}");
-        }
-        
-        if (record.getGoodsPriceStockBak() != null) {
-            SET("goods_price_stock_bak = #{goodsPriceStockBak,jdbcType=INTEGER}");
         }
         
         WHERE("id = #{id,jdbcType=INTEGER}");
